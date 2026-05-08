@@ -2,7 +2,7 @@
 
 <html lang="pt-BR"><head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>Bom Garoto Complexo Canino - Login</title>
 
 <!-- Favicon Clássico e Moderno -->
@@ -464,6 +464,20 @@
             background: radial-gradient(circle at center, rgba(0, 101, 119, 0.04) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
+        }
+
+        /* --- NATIVE APP FEEL --- */
+        body {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+            overscroll-behavior-y: none;
+        }
+
+        input, textarea, [contenteditable="true"] {
+            -webkit-user-select: text;
+            user-select: text;
         }
     </style>
   </head>

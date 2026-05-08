@@ -2,7 +2,7 @@
 
 <html class="light" lang="pt-BR"><head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>Dashboard - Bom Garoto</title>
 
 <!-- Favicon Clássico e Moderno -->
@@ -406,6 +406,62 @@
             -webkit-overflow-scrolling: touch;
             padding-bottom: 140px;
         }
+
+        /* --- NATIVE APP FEEL & ELEGANT ANIMATIONS --- */
+        
+        /* Prevenção de Zoom e Toques Fantasmagóricos */
+        body {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+            overscroll-behavior-y: none; /* Previne o "pull-to-refresh" que quebra o feel de app */
+        }
+
+        input, textarea, [contenteditable="true"] {
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        /* Animação de Revelação Suave (Luxury Reveal) */
+        @keyframes revealScale {
+            from { opacity: 0; transform: scale(0.98) translateY(8px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .animate-reveal {
+            animation: revealScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        /* Efeito de Elevação ao Hover (Desktop) */
+        .hover-lift {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-6px) scale(1.015);
+            box-shadow: 0 20px 40px rgba(0, 101, 119, 0.08);
+        }
+
+        /* Feedback Tátil de Pressão (Mobile) */
+        .tap-press {
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tap-press:active {
+            transform: scale(0.96);
+        }
+
+        /* Brilho Suave de Carregamento */
+        @keyframes shimmer-loading {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .skeleton {
+            background: linear-gradient(90deg, var(--surface-container-low) 25%, var(--surface-container-high) 50%, var(--surface-container-low) 75%);
+            background-size: 200% 100%;
+            animation: shimmer-loading 1.5s infinite;
+        }
     </style>
   </head>
 <body class="bg-background text-on-background min-h-screen">
@@ -415,7 +471,7 @@
 <!-- TopAppBar -->
 <header class="hidden md:flex justify-between items-center w-full px-margin h-16 max-w-7xl mx-auto shadow-[0_4px_20px_-2px_rgba(0,101,119,0.08)] bg-surface dark:bg-surface-container-high sticky top-0 z-50">
 <div class="flex items-center gap-sm">
-<button class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full p-2 transition-colors">
+<button class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full p-2 transition-colors tap-press">
 <span class="material-symbols-outlined">search</span>
 </button>
 </div>
@@ -423,7 +479,7 @@
             Bom Garoto
         </div>
 <div class="flex items-center gap-sm">
-<button class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full p-2 transition-colors">
+<button class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full p-2 transition-colors tap-press">
 <span class="material-symbols-outlined">notifications</span>
 </button>
 </div>
@@ -431,7 +487,7 @@
 <!-- Main Content -->
 <main class="max-w-7xl mx-auto px-4 md:px-margin pt-6 md:pt-margin space-y-md">
 <!-- Welcome Section -->
-<section class="flex items-center justify-between animate-fade-in-up" style="animation-delay: 0.1s;">
+<section class="flex items-center justify-between animate-reveal" style="animation-delay: 0.1s;">
 <div>
 <h1 class="font-headline-lg text-headline-lg text-primary">Olá, Kamila 👋</h1>
 <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Aqui está o resumo do seu dia.</p>
@@ -446,7 +502,7 @@
 <!-- Summary Cards (Esteira de Rolagem Horizontal de Luxo no Mobile & Grid 4 Colunas no Desktop) -->
 <section class="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-x-visible no-scrollbar pb-4 md:pb-0 snap-x snap-mandatory -mx-4 px-4 md:mx-0 md:px-0">
     <!-- Card 1 -->
-    <div class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] p-5 ambient-shadow soft-shadow card-3d shimmer-shine flex flex-col justify-between min-h-[140px] w-[240px] md:w-auto shrink-0 md:shrink snap-center animate-fade-in-up hover:border-primary/20 border border-transparent transition-all duration-300" style="animation-delay: 0.2s;">
+    <div class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] p-5 ambient-shadow soft-shadow card-3d shimmer-shine flex flex-col justify-between min-h-[140px] w-[240px] md:w-auto shrink-0 md:shrink snap-center animate-fade-in-up hover-lift hover:border-primary/20 border border-transparent transition-all duration-300" style="animation-delay: 0.2s;">
         <div class="card-3d-inner flex flex-col justify-between h-full">
             <div class="flex items-center gap-2 text-primary dark:text-primary-fixed-dim">
                 <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
@@ -460,7 +516,7 @@
     </div>
     
     <!-- Card 2 -->
-    <div onclick="switchTab('pacotes')" class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] p-5 ambient-shadow soft-shadow card-3d shimmer-shine flex flex-col justify-between min-h-[140px] w-[240px] md:w-auto shrink-0 md:shrink snap-center animate-fade-in-up hover:border-primary-container/20 border border-transparent transition-all duration-300 cursor-pointer" style="animation-delay: 0.3s;">
+    <div onclick="switchTab('pacotes')" class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] p-5 ambient-shadow soft-shadow card-3d shimmer-shine flex flex-col justify-between min-h-[140px] w-[240px] md:w-auto shrink-0 md:shrink snap-center animate-fade-in-up hover-lift hover:border-primary-container/20 border border-transparent transition-all duration-300 cursor-pointer" style="animation-delay: 0.3s;">
         <div class="card-3d-inner flex flex-col justify-between h-full">
             <div class="flex items-center gap-2 text-primary-container dark:text-primary-fixed-dim">
                 <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
@@ -474,7 +530,7 @@
     </div>
 
     <!-- Card 3: Relatórios (Novo) -->
-    <div onclick="switchTab('relatorios')" class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] p-5 ambient-shadow soft-shadow card-3d shimmer-shine flex flex-col justify-between min-h-[140px] w-[240px] md:w-auto shrink-0 md:shrink snap-center animate-fade-in-up hover:border-tertiary/20 border border-transparent transition-all duration-300 cursor-pointer" style="animation-delay: 0.35s;">
+    <div onclick="switchTab('relatorios')" class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] p-5 ambient-shadow soft-shadow card-3d shimmer-shine flex flex-col justify-between min-h-[140px] w-[240px] md:w-auto shrink-0 md:shrink snap-center animate-fade-in-up hover-lift hover:border-tertiary/20 border border-transparent transition-all duration-300 cursor-pointer" style="animation-delay: 0.35s;">
         <div class="card-3d-inner flex flex-col justify-between h-full">
             <div class="flex items-center gap-2 text-tertiary dark:text-tertiary-fixed-dim">
                 <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">bar_chart</span>
@@ -1453,8 +1509,8 @@
                 <!-- Carrossel de Planos Horizontal Premium (Deslizante) -->
                 <div class="flex overflow-x-auto gap-4 snap-x snap-mandatory pb-4 scrollbar-none -mx-6 px-6 sm:mx-0 sm:px-0">
                     <!-- Plano Mensal -->
-                    <div id="spa-plan-mensal" onclick="selectPlanSPA('mensal')" ondragover="handleServiceDragOver(event)" ondrop="handleServiceDrop(event, 'mensal')" class="active-plan-card border-2 border-surface-container-high dark:border-white/10 rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-surface-container-lowest dark:bg-surface-container-high">
-                        <div>
+                    <div id="spa-plan-mensal" onclick="selectPlanSPA('mensal')" ondragover="handleServiceDragOver(event)" ondrop="handleServiceDrop(event, 'mensal')" class="active-plan-card border-2 border-surface-container-high dark:border-white/10 rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover-lift hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-surface-container-lowest dark:bg-surface-container-high">
+                        <div class="card-3d-inner">
                             <div class="flex justify-between items-start">
                                 <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">Plano Básico</span>
                                 <span class="material-symbols-outlined text-primary text-[20px] fill-current">check_circle</span>
@@ -1475,8 +1531,8 @@
                     </div>
 
                     <!-- Plano Trimestral -->
-                    <div id="spa-plan-trimestral" onclick="selectPlanSPA('trimestral')" ondragover="handleServiceDragOver(event)" ondrop="handleServiceDrop(event, 'trimestral')" class="border-2 border-surface-container-high dark:border-white/10 rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-surface-container-lowest dark:bg-surface-container-high">
-                        <div>
+                    <div id="spa-plan-trimestral" onclick="selectPlanSPA('trimestral')" ondragover="handleServiceDragOver(event)" ondrop="handleServiceDrop(event, 'trimestral')" class="border-2 border-surface-container-high dark:border-white/10 rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover-lift hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-surface-container-lowest dark:bg-surface-container-high">
+                        <div class="card-3d-inner">
                             <div class="flex justify-between items-start">
                                 <span class="bg-emerald-500/10 text-emerald-600 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">10% OFF</span>
                                 <span class="material-symbols-outlined text-outline group-hover:text-primary text-[20px]">radio_button_unchecked</span>
@@ -1497,8 +1553,8 @@
                     </div>
 
                     <!-- Plano Semestral -->
-                    <div id="spa-plan-semestral" onclick="selectPlanSPA('semestral')" ondragover="handleServiceDragOver(event)" ondrop="handleServiceDrop(event, 'semestral')" class="border-2 border-surface-container-high dark:border-white/10 rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-surface-container-lowest dark:bg-surface-container-high">
-                        <div>
+                    <div id="spa-plan-semestral" onclick="selectPlanSPA('semestral')" ondragover="handleServiceDragOver(event)" ondrop="handleServiceDrop(event, 'semestral')" class="border-2 border-surface-container-high dark:border-white/10 rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover-lift hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-surface-container-lowest dark:bg-surface-container-high">
+                        <div class="card-3d-inner">
                             <div class="flex justify-between items-start">
                                 <span class="bg-primary-container/10 text-primary-container px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">20% OFF • POPULAR</span>
                                 <span class="material-symbols-outlined text-outline group-hover:text-primary text-[20px]">radio_button_unchecked</span>
@@ -1519,8 +1575,8 @@
                     </div>
 
                     <!-- Plano Anual -->
-                    <div id="spa-plan-anual" onclick="selectPlanSPA('anual')" ondragover="handleServiceDragOver(event)" ondrop="handleServiceDrop(event, 'anual')" class="border-2 border-surface-container-high dark:border-white/10 rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-surface-container-lowest dark:bg-surface-container-high">
-                        <div>
+                    <div id="spa-plan-anual" onclick="selectPlanSPA('anual')" ondragover="handleServiceDragOver(event)" ondrop="handleServiceDrop(event, 'anual')" class="border-2 border-surface-container-high dark:border-white/10 rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover-lift hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-surface-container-lowest dark:bg-surface-container-high">
+                        <div class="card-3d-inner">
                             <div class="flex justify-between items-start">
                                 <span class="bg-tertiary/10 text-tertiary px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">30% OFF • MELHOR VALOR</span>
                                 <span class="material-symbols-outlined text-outline group-hover:text-primary text-[20px]">radio_button_unchecked</span>
@@ -1577,10 +1633,10 @@
                 </div>
 
                 <!-- Chips de Serviços Disponíveis (Drag & Drop Premium + Touch Tap) -->
-                <div class="bg-surface-container-low/40 dark:bg-surface-container-highest/20 rounded-2xl px-2.5 py-4 sm:p-4 border border-surface-container-high/60 dark:border-white/10 mb-4 animate-fade-in-up">
+                <div class="bg-surface-container-low/40 dark:bg-surface-container-highest/20 rounded-2xl px-2.5 py-4 sm:p-4 border border-surface-container-high/60 dark:border-white/10 mb-4 animate-reveal">
                     <div class="flex flex-col gap-3 w-full mt-1">
                         <!-- Banho -->
-                        <div class="bg-surface-container-lowest dark:bg-inverse-surface border border-surface-container-high dark:border-white/10 rounded-2xl p-2 sm:p-3.5 flex items-center justify-between shadow-sm hover:shadow transition-all group select-none gap-2">
+                        <div class="bg-surface-container-lowest dark:bg-inverse-surface border border-surface-container-high dark:border-white/10 rounded-2xl p-2 sm:p-3.5 flex items-center justify-between shadow-sm hover-lift hover:shadow transition-all group select-none gap-2">
                             <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
                                 <div class="flex items-center gap-1.5 sm:gap-2.5 min-w-[55px] sm:min-w-[80px] shrink-0">
                                     <span class="material-symbols-outlined text-primary text-[18px] sm:text-[20px]">bathtub</span>
@@ -1600,13 +1656,13 @@
                                 </div>
                             </div>
                             <!-- Botão Adicionar -->
-                            <button type="button" onclick="handleAddCustomService('banho')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-primary text-white flex items-center justify-center hover:bg-primary-container hover:scale-105 active:scale-95 transition-all shadow-md shrink-0">
+                            <button type="button" onclick="handleAddCustomService('banho')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-primary text-white flex items-center justify-center hover:bg-primary-container hover:scale-105 tap-press transition-all shadow-md shrink-0">
                                 <span class="material-symbols-outlined text-[15px] sm:text-[18px]">add</span>
                             </button>
                         </div>
 
                         <!-- Creche -->
-                        <div class="bg-surface-container-lowest dark:bg-inverse-surface border border-surface-container-high dark:border-white/10 rounded-2xl p-2 sm:p-3.5 flex items-center justify-between shadow-sm hover:shadow transition-all group select-none gap-2">
+                        <div class="bg-surface-container-lowest dark:bg-inverse-surface border border-surface-container-high dark:border-white/10 rounded-2xl p-2 sm:p-3.5 flex items-center justify-between shadow-sm hover-lift hover:shadow transition-all group select-none gap-2">
                             <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
                                 <div class="flex items-center gap-1.5 sm:gap-2.5 min-w-[55px] sm:min-w-[80px] shrink-0">
                                     <span class="material-symbols-outlined text-primary text-[18px] sm:text-[20px]">toys</span>
@@ -1626,13 +1682,13 @@
                                 </div>
                             </div>
                             <!-- Botão Adicionar -->
-                            <button type="button" onclick="handleAddCustomService('creche')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-primary text-white flex items-center justify-center hover:bg-primary-container hover:scale-105 active:scale-95 transition-all shadow-md shrink-0">
+                            <button type="button" onclick="handleAddCustomService('creche')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-primary text-white flex items-center justify-center hover:bg-primary-container hover:scale-105 tap-press transition-all shadow-md shrink-0">
                                 <span class="material-symbols-outlined text-[15px] sm:text-[18px]">add</span>
                             </button>
                         </div>
 
                         <!-- Hotel -->
-                        <div class="bg-surface-container-lowest dark:bg-inverse-surface border border-surface-container-high dark:border-white/10 rounded-2xl p-2 sm:p-3.5 flex items-center justify-between shadow-sm hover:shadow transition-all group select-none gap-2">
+                        <div class="bg-surface-container-lowest dark:bg-inverse-surface border border-surface-container-high dark:border-white/10 rounded-2xl p-2 sm:p-3.5 flex items-center justify-between shadow-sm hover-lift hover:shadow transition-all group select-none gap-2">
                             <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
                                 <div class="flex items-center gap-1.5 sm:gap-2.5 min-w-[55px] sm:min-w-[80px] shrink-0">
                                     <span class="material-symbols-outlined text-primary text-[18px] sm:text-[20px]">bed</span>
@@ -1652,7 +1708,7 @@
                                 </div>
                             </div>
                             <!-- Botão Adicionar -->
-                            <button type="button" onclick="handleAddCustomService('hotel')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-primary text-white flex items-center justify-center hover:bg-primary-container hover:scale-105 active:scale-95 transition-all shadow-md shrink-0">
+                            <button type="button" onclick="handleAddCustomService('hotel')" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-primary text-white flex items-center justify-center hover:bg-primary-container hover:scale-105 tap-press transition-all shadow-md shrink-0">
                                 <span class="material-symbols-outlined text-[15px] sm:text-[18px]">add</span>
                             </button>
                         </div>
@@ -1660,7 +1716,7 @@
                 </div>
 
                 <!-- Seção de Agendamento Dinâmico -->
-                <div id="spa-scheduling-section" class="hidden animate-fade-in-up mt-6">
+                <div id="spa-scheduling-section" class="hidden animate-reveal mt-6">
                     <p class="text-xs text-outline dark:text-outline-variant font-semibold uppercase tracking-wider mb-4">Configuração de Agendamento</p>
                     <div id="spa-scheduling-container" class="flex flex-col gap-4">
                         <!-- Será preenchido dinamicamente via JS -->
@@ -1670,7 +1726,7 @@
                 <p class="text-xs text-outline dark:text-outline-variant font-semibold uppercase tracking-wider mb-4 mt-6">Resumo do Plano</p>
 
                 <!-- Painel de Resumo Interativo Premium -->
-                <div class="bg-surface-container-low/40 dark:bg-surface-container-highest/20 rounded-2xl p-4 border border-surface-container-high/60 dark:border-white/10 mb-4 animate-fade-in-up">
+                <div class="bg-surface-container-low/40 dark:bg-surface-container-highest/20 rounded-2xl p-4 border border-surface-container-high/60 dark:border-white/10 mb-4 animate-reveal">
                     <div id="spa-plan-summary-container" class="flex flex-col gap-3 w-full">
                         <!-- Será preenchido dinamicamente via JS (renderPlanSummary) -->
                     </div>
@@ -1993,24 +2049,24 @@
 </section>
 </div> <!-- Fechamento de view-slider -->
 <!-- BottomNavBar (Mobile) -->
-<nav class="md:hidden fixed bottom-6 left-4 right-4 z-50 flex justify-around items-center px-2 py-2 bg-white/80 dark:bg-inverse-surface/85 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-[0_12px_40px_rgba(0,101,119,0.18)] rounded-[24px] animate-fade-in-up" style="animation-delay: 0.7s;">
-<button id="btn-nav-dash" onclick="switchTab('dashboard')" class="flex flex-col items-center justify-center bg-primary dark:bg-primary-fixed-dim text-white dark:text-on-primary-fixed rounded-full px-3.5 py-1.5 scale-100 shadow-md transform transition-all duration-300 hover:scale-105 active:scale-95 whitespace-nowrap min-w-[76px]">
+<nav class="md:hidden fixed bottom-6 left-4 right-4 z-50 flex justify-around items-center px-2 py-2 bg-white/80 dark:bg-inverse-surface/85 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-[0_12px_40px_rgba(0,101,119,0.18)] rounded-[24px] animate-reveal" style="animation-delay: 0.7s;">
+<button id="btn-nav-dash" onclick="switchTab('dashboard')" class="flex flex-col items-center justify-center bg-primary dark:bg-primary-fixed-dim text-white dark:text-on-primary-fixed rounded-full px-3.5 py-1.5 scale-100 shadow-md transform transition-all duration-300 hover:scale-105 tap-press whitespace-nowrap min-w-[76px]">
 <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">dashboard</span>
 <span class="font-label-sm text-[10px] font-bold mt-0.5 whitespace-nowrap">Dashboard</span>
 </button>
-<button id="btn-nav-clients" onclick="switchTab('clientes')" class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 px-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform active:scale-90 whitespace-nowrap">
+<button id="btn-nav-clients" onclick="switchTab('clientes')" class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 px-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform tap-press whitespace-nowrap">
 <span class="material-symbols-outlined text-[20px]">group</span>
 <span class="font-label-sm text-[10px] mt-0.5 whitespace-nowrap">Clientes</span>
 </button>
-<button id="btn-nav-pets" onclick="switchTab('pets')" class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 px-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform active:scale-90 whitespace-nowrap">
+<button id="btn-nav-pets" onclick="switchTab('pets')" class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 px-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform tap-press whitespace-nowrap">
 <span class="material-symbols-outlined text-[20px]">pets</span>
 <span class="font-label-sm text-[10px] mt-0.5 whitespace-nowrap">Pets</span>
 </button>
-<button id="btn-nav-packages" onclick="switchTab('pacotes')" class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 px-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform active:scale-90 whitespace-nowrap">
+<button id="btn-nav-packages" onclick="switchTab('pacotes')" class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 px-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform tap-press whitespace-nowrap">
 <span class="material-symbols-outlined text-[20px]">inventory_2</span>
 <span class="font-label-sm text-[10px] mt-0.5 whitespace-nowrap">Pacotes</span>
 </button>
-<button id="btn-nav-schedule" onclick="switchTab('agenda')" class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 px-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform active:scale-90 whitespace-nowrap">
+<button id="btn-nav-schedule" onclick="switchTab('agenda')" class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 px-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform tap-press whitespace-nowrap">
 <span class="material-symbols-outlined text-[20px]">calendar_today</span>
 <span class="font-label-sm text-[10px] mt-0.5 whitespace-nowrap">Agenda</span>
 </button>
@@ -2518,7 +2574,7 @@
         const services = planServicesData[planKey];
         
         if (services.length === 0) {
-            container.innerHTML = `<span class="text-[10px] text-outline/50 italic py-1">Arraste um serviço aqui</span>`;
+            container.innerHTML = '';
             return;
         }
 
@@ -2662,7 +2718,7 @@
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="font-black text-on-surface dark:text-white font-headline-md">R$ ${totalPrice.toFixed(2)}</span>
-                            <button type="button" onclick="event.stopPropagation(); removeServiceFromPlan('${activePlan}', '${s.key}')" class="w-6 h-6 rounded-lg hover:bg-red-500/10 text-outline hover:text-red-500 flex items-center justify-center transition-all">
+                            <button type="button" onclick="event.stopPropagation(); removeServiceFromPlan('${activePlan}', '${s.key}')" class="w-6 h-6 rounded-lg hover:bg-red-500/10 text-outline hover:text-red-500 flex items-center justify-center transition-all tap-press">
                                 <span class="material-symbols-outlined text-[13px]">delete</span>
                             </button>
                         </div>
@@ -2745,7 +2801,7 @@
             hours.forEach(h => {
                 const isSelected = schedulingData.banho.time === h;
                 hoursHtml += `
-                    <button type="button" onclick="selectSchedulingTime('banho', '${h}')" class="shrink-0 px-3 py-1.5 rounded-full text-xs font-black transition-all ${isSelected ? 'bg-primary text-white shadow' : 'bg-surface-container-low dark:bg-surface-container-high text-on-surface hover:bg-surface-container-high'}">
+                    <button type="button" onclick="selectSchedulingTime('banho', '${h}')" class="shrink-0 px-3 py-1.5 rounded-full text-xs font-black transition-all tap-press ${isSelected ? 'bg-primary text-white shadow' : 'bg-surface-container-low dark:bg-surface-container-high text-on-surface hover:bg-surface-container-high'}">
                         ${h}
                     </button>
                 `;
@@ -2790,7 +2846,7 @@
             weekdays.forEach(d => {
                 const isSelected = schedulingData.creche.days.includes(d.key);
                 daysHtml += `
-                    <button type="button" onclick="toggleSchedulingDay('${d.key}')" class="flex-1 py-2 rounded-xl text-xs font-black transition-all border border-surface-container-high dark:border-white/10 ${isSelected ? 'bg-primary text-white border-primary shadow' : 'bg-surface-container-low dark:bg-surface-container-high text-on-surface hover:bg-surface-container-high'}">
+                    <button type="button" onclick="toggleSchedulingDay('${d.key}')" class="flex-1 py-2 rounded-xl text-xs font-black transition-all border border-surface-container-high dark:border-white/10 tap-press ${isSelected ? 'bg-primary text-white border-primary shadow' : 'bg-surface-container-low dark:bg-surface-container-high text-on-surface hover:bg-surface-container-high'}">
                         ${d.label}
                     </button>
                 `;

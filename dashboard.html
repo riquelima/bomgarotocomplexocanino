@@ -808,6 +808,35 @@
                 </div>
             </div>
         </div>
+
+        <!-- Seção: Observações do Pet (SPA Reativa com Edição) -->
+        <div class="bg-surface-container-lowest dark:bg-surface-container-high rounded-[32px] p-6 shadow-sm border border-surface-container-high/40 dark:border-white/5 space-y-4 animate-fade-in-up" style="animation-delay: 0.15s;">
+            <div class="flex items-center justify-between border-b border-surface-container-high/40 dark:border-white/5 pb-3">
+                <h3 class="font-label-md text-xs text-primary dark:text-primary-fixed-dim uppercase tracking-wider font-extrabold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">sticky_note_2</span>
+                    Observações do Pet
+                </h3>
+                
+                <!-- Botão de Editar / Concluir Reativo -->
+                <button id="pet-obs-btn" onclick="togglePetObservationsEdit()" class="inline-flex items-center gap-1 bg-primary/10 text-primary dark:bg-primary-fixed-dim/20 dark:text-primary-fixed-dim px-4 py-2 rounded-full text-xs font-extrabold shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all">
+                    <span class="material-symbols-outlined text-[14px]">edit</span>
+                    Editar
+                </button>
+            </div>
+
+            <!-- Card de Conteúdo Reativo -->
+            <div class="relative min-h-[100px]">
+                <!-- Modo Leitura (Padrão) -->
+                <div id="pet-obs-view" class="p-4 bg-surface-container-low dark:bg-inverse-surface rounded-2xl border border-surface-container-high/20 text-xs sm:text-sm text-on-surface leading-relaxed min-h-[96px] flex items-center justify-center">
+                    <p id="pet-obs-text" class="whitespace-pre-line font-medium"></p>
+                </div>
+
+                <!-- Modo Edição (Oculto Inicialmente) -->
+                <div id="pet-obs-edit" class="hidden">
+                    <textarea id="pet-obs-textarea" class="w-full bg-surface-container-low dark:bg-inverse-surface text-on-surface rounded-2xl p-4 border border-primary/20 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-semibold text-xs sm:text-sm leading-relaxed resize-none h-32 placeholder:text-outline-variant" placeholder="Escreva aqui observações importantes sobre o comportamento, saúde, alergias ou cuidados específicos deste pet..."></textarea>
+                </div>
+            </div>
+        </div>
     </main>
 </section> <!-- Fechamento de view-detalhes-pet -->
 
@@ -2314,6 +2343,77 @@
         }
     });
 
+    // === MÓDULO DE OBSERVAÇÕES DO PET (REATIVO E EDITÁVEL EM MEMÓRIA) ===
+    let petObservationsDatabase = {};
+    window.isEditingPetObs = false;
+
+    function renderPetObservations() {
+        const key = window.activePetKey;
+        const viewContainer = document.getElementById('pet-obs-view');
+        const textElement = document.getElementById('pet-obs-text');
+        const textarea = document.getElementById('pet-obs-textarea');
+        const editContainer = document.getElementById('pet-obs-edit');
+        const actionBtn = document.getElementById('pet-obs-btn');
+
+        if (!viewContainer || !textElement || !textarea || !editContainer || !actionBtn) return;
+
+        const obsText = petObservationsDatabase[key] || '';
+
+        if (!window.isEditingPetObs) {
+            // MODO LEITURA
+            editContainer.classList.add('hidden');
+            viewContainer.classList.remove('hidden');
+
+            if (obsText.trim() === '') {
+                textElement.innerText = "Nenhuma observação registrada para este pet. Clique em 'Editar' para adicionar.";
+                textElement.className = "whitespace-pre-line font-bold italic text-outline/50 text-center py-4 w-full";
+            } else {
+                textElement.innerText = obsText;
+                textElement.className = "whitespace-pre-line font-semibold text-on-surface text-left w-full";
+            }
+
+            // Restaura o botão de Editar
+            actionBtn.innerHTML = `
+                <span class="material-symbols-outlined text-[14px]">edit</span>
+                Editar
+            `;
+            actionBtn.className = "inline-flex items-center gap-1 bg-primary/10 text-primary dark:bg-primary-fixed-dim/20 dark:text-primary-fixed-dim px-4 py-2 rounded-full text-xs font-extrabold shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all";
+        } else {
+            // MODO EDIÇÃO
+            viewContainer.classList.add('hidden');
+            editContainer.classList.remove('hidden');
+            textarea.value = obsText;
+            textarea.focus();
+
+            // Altera o botão para Concluir
+            actionBtn.innerHTML = `
+                <span class="material-symbols-outlined text-[14px]">check</span>
+                Concluir
+            `;
+            actionBtn.className = "inline-flex items-center gap-1 bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 px-4 py-2 rounded-full text-xs font-black shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all border border-emerald-500/15";
+        }
+    }
+
+    function togglePetObservationsEdit() {
+        const key = window.activePetKey;
+        const textarea = document.getElementById('pet-obs-textarea');
+
+        if (window.isEditingPetObs) {
+            // Se estava editando e clicou em Concluir, salva o texto!
+            if (textarea) {
+                petObservationsDatabase[key] = textarea.value;
+            }
+            window.isEditingPetObs = false;
+            if (navigator.vibrate) navigator.vibrate([20, 40]);
+        } else {
+            // Se estava em leitura, abre o campo para edição!
+            window.isEditingPetObs = true;
+            if (navigator.vibrate) navigator.vibrate(15);
+        }
+
+        renderPetObservations();
+    }
+
     function exibirDetalhesPetSPA(petName, breed, tutor, imgUrl, plan) {
         // Mapeia informações do tutor ou coloca dados realísticos de luxo
         document.getElementById('detail-pet-name').innerText = petName;
@@ -2333,6 +2433,10 @@
         // Inicializa e renderiza documentos anexados para o pet atual
         window.activePetKey = `${tutor}_${petName}`;
         renderPetDocuments();
+
+        // Inicializa e renderiza observações para o pet atual
+        window.isEditingPetObs = false;
+        renderPetObservations();
 
         // Transiciona suavemente para a aba de detalhes de pet!
         switchTab('detalhes-pet');

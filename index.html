@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="refresh" content="0; URL='login.html'"/>
+    <title>Bom Garoto Complexo Canino</title>
+    
+    <!-- Favicon Clássico e Moderno -->
+    <link rel="icon" type="image/png" href="logoTransparente.png" />
+    <link rel="shortcut icon" href="logoTransparente.png" type="image/png" />
+
+    <!-- Progressive Web App (PWA) Manifest -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#006577" />
+
+    <!-- Suporte de Instalação e Meta Tags para iOS (iPhone/iPad) -->
+    <link rel="apple-touch-icon" href="logoTransparente.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Bom Garoto" />
+
+    <!-- Metatags Open Graph (Pré-visualização de Link no WhatsApp, Instagram, Telegram) -->
+    <meta property="og:title" content="Bom Garoto - Complexo Canino" />
+    <meta property="og:description" content="O sistema premium de agendamento, creche e hotelaria canina do Bom Garoto!" />
+    <meta property="og:image" content="logoTransparente.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bomgarotocomplexocanino.vercel.app/" />
+
+    <!-- Metatags Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Bom Garoto - Complexo Canino" />
+    <meta name="twitter:description" content="O sistema premium de agendamento, creche e hotelaria canina do Bom Garoto!" />
+    <meta name="twitter:image" content="logoTransparente.png" />
+
+    <script>
+        // Redirecionamento imediato e resiliente para o login sem quebrar o histórico de navegação
+        window.location.replace("login.html");
+    </script>
+</head>
+<body style="background-color: #f6fafc; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; color: #006577;">
+    <div style="text-align: center;">
+        <img src="logoTransparente.png" alt="Bom Garoto" style="width: 96px; height: 96px; animation: pulse 2s infinite ease-in-out;"/>
+        <p style="font-weight: bold; margin-top: 16px;">Carregando o Complexo Canino...</p>
+    </div>
+    <style>
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+    </style>
+</body>
+</html>

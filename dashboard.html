@@ -1878,8 +1878,7 @@
         if (navigator.vibrate) navigator.vibrate([40, 80]);
         const confirmLogout = confirm("Kamila, deseja realmente deslogar do sistema Bom Garoto?");
         if (confirmLogout) {
-            alert("Sessão encerrada com sucesso! Redirecionando para o login fictício de demonstração.");
-            switchTab('dashboard');
+            window.location.href = 'login.html';
         }
     }
 

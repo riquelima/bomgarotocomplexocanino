@@ -113,6 +113,30 @@
                     <span class="material-symbols-outlined text-[22px]">pets</span>
                     Informações do Pet
                 </h3>
+
+                <!-- Círculo Reativo de Upload de Foto do Pet -->
+                <div class="flex flex-col items-center justify-center py-2">
+                    <div onclick="document.getElementById('pet-photo-input').click()" class="relative group cursor-pointer">
+                        <!-- Círculo principal -->
+                        <div class="w-24 h-24 rounded-full border-4 border-primary/20 hover:border-primary bg-surface-container-low flex items-center justify-center overflow-hidden transition-all duration-300 shadow-sm relative">
+                            <!-- Imagem do pet (Placeholder padrão) -->
+                            <img id="pet-photo-preview" src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=150&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Foto do Pet">
+                            
+                            <!-- Overlay de Hover -->
+                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span class="material-symbols-outlined text-white text-[22px]">add_a_photo</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Badge flutuante de Câmera -->
+                        <div class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-md border-2 border-white group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-[16px]">camera_alt</span>
+                        </div>
+                    </div>
+                    
+                    <input type="file" id="pet-photo-input" class="hidden" accept="image/*" onchange="handlePetPhotoChange(event)">
+                    <span class="text-[10px] text-outline font-bold uppercase tracking-wider mt-2">Toque para adicionar foto</span>
+                </div>
                 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="col-span-2 sm:col-span-1">
@@ -122,7 +146,7 @@
                     
                     <div class="col-span-2 sm:col-span-1">
                         <label class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-1.5">Espécie</label>
-                        <select required id="pet-type" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-semibold">
+                        <select required id="pet-type" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-normal">
                             <option value="DOG">Cão (DOG)</option>
                             <option value="CAT">Gato (CAT)</option>
                         </select>
@@ -130,7 +154,7 @@
 
                     <div class="col-span-2 sm:col-span-1">
                         <label class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-1.5">Raça</label>
-                        <select required id="pet-breed" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-semibold">
+                        <select required id="pet-breed" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-normal">
                             <option value="" disabled selected hidden>Selecione a raça</option>
                             <option value="Akita">Akita</option>
                             <option value="Beagle">Beagle</option>
@@ -169,6 +193,22 @@
                         <label class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-1.5">Idade aproximada</label>
                         <input required type="text" id="pet-age" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-semibold placeholder:text-outline-variant" placeholder="Ex: 2 anos, 6 meses">
                     </div>
+
+                    <!-- Seção de Upload de Documentos no Cadastro (Complementar) -->
+                    <div class="col-span-2 space-y-2">
+                        <label class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-1">Documentos do Pet</label>
+                        <div id="spa-pet-docs-dropzone" class="relative overflow-hidden border-2 border-dashed border-primary/20 rounded-2xl p-5 flex flex-col items-center justify-center text-center cursor-pointer bg-surface-container-low/30 hover:bg-surface-container-low/60 hover:border-primary/50 transition-all duration-300 group">
+                            <input type="file" id="spa-pet-docs-input" class="hidden" accept=".pdf,image/*,.doc,.docx" multiple>
+                            
+                            <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-2 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                                <span class="material-symbols-outlined text-[20px] group-hover:animate-bounce">cloud_upload</span>
+                            </div>
+                            
+                            <p class="text-xs font-bold text-on-surface mb-1">Arraste os arquivos aqui ou <span class="text-primary underline">clique para buscar</span></p>
+                            <p class="text-[10px] text-outline font-medium">PDF, Imagem ou DOC (Máx: 15MB)</p>
+                        </div>
+                        <div id="spa-pet-docs-list" class="flex flex-wrap gap-2 mt-2"></div>
+                    </div>
                 </div>
             </section>
 
@@ -176,15 +216,15 @@
             <section class="bg-surface-container-lowest rounded-[28px] p-6 sm:p-8 border border-surface-container-high/60 ambient-shadow space-y-4">
                 <h3 class="font-['Plus_Jakarta_Sans'] text-lg font-bold text-primary flex items-center gap-2 mb-1">
                     <span class="material-symbols-outlined text-[22px]">inventory_2</span>
-                    Pacote de Serviços Associado
+                    Pacotes de Serviços
                 </h3>
-                <p class="text-xs text-outline font-semibold uppercase tracking-wider mb-4">Escolha a periodicidade ideal para o plano de banho & tosa:</p>
+                <p class="text-xs text-outline font-semibold uppercase tracking-wider mb-4">Escolha o Plano</p>
                 
                 <input type="hidden" name="selected-plan" id="selected-plan-input" value="mensal">
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="flex overflow-x-auto gap-4 snap-x snap-mandatory pb-4 scrollbar-none -mx-6 px-6 sm:mx-0 sm:px-0">
                     <!-- Plano Mensal -->
-                    <div id="plan-mensal" onclick="selectPlan('mensal')" class="active-plan-card border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary">
+                    <div id="plan-mensal" onclick="selectPlan('mensal')" class="active-plan-card border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-white">
                         <div>
                             <div class="flex justify-between items-start">
                                 <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">Plano Básico</span>
@@ -203,7 +243,7 @@
                     </div>
 
                     <!-- Plano Trimestral -->
-                    <div id="plan-trimestral" onclick="selectPlan('trimestral')" class="border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary">
+                    <div id="plan-trimestral" onclick="selectPlan('trimestral')" class="border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-white">
                         <div>
                             <div class="flex justify-between items-start">
                                 <span class="bg-emerald-500/10 text-emerald-600 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">10% OFF</span>
@@ -222,7 +262,7 @@
                     </div>
 
                     <!-- Plano Semestral -->
-                    <div id="plan-semestral" onclick="selectPlan('semestral')" class="border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary">
+                    <div id="plan-semestral" onclick="selectPlan('semestral')" class="border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-white">
                         <div>
                             <div class="flex justify-between items-start">
                                 <span class="bg-primary-container/10 text-primary-container px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">20% OFF • POPULAR</span>
@@ -241,7 +281,7 @@
                     </div>
 
                     <!-- Plano Anual -->
-                    <div id="plan-anual" onclick="selectPlan('anual')" class="border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary">
+                    <div id="plan-anual" onclick="selectPlan('anual')" class="border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary w-[280px] shrink-0 snap-align-start sm:w-auto sm:flex-1 bg-white">
                         <div>
                             <div class="flex justify-between items-start">
                                 <span class="bg-tertiary/10 text-tertiary px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">30% OFF • MELHOR VALOR</span>
@@ -277,6 +317,25 @@
     </main>
 
     <script>
+        // Módulo de Foto do Pet (Preview Reativo)
+        window.selectedPetPhotoUrl = "https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=150&auto=format&fit=crop";
+
+        function handlePetPhotoChange(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                window.selectedPetPhotoUrl = e.target.result;
+                const previewImg = document.getElementById('pet-photo-preview');
+                if (previewImg) {
+                    previewImg.src = e.target.result;
+                }
+                if (navigator.vibrate) navigator.vibrate(15);
+            };
+            reader.readAsDataURL(file);
+        }
+
         // Lógica de Seleção de Planos Interativa
         function selectPlan(planName) {
             // Remove as classes de todos

@@ -26,11 +26,17 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://bomgaroto.vercel.app/" />
 
-<!-- Metatags Twitter Card -->
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Bom Garoto - Complexo Canino" />
-<meta name="twitter:description" content="O sistema premium de agendamento, creche e hotelaria canina do Bom Garoto!" />
-<meta name="twitter:image" content="logoTransparente.png" />
+<!-- Segurança: Verificação de Sessão Imediata (Bloqueio de Loop de Login) -->
+<script>
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('logout') === 'true') {
+            localStorage.removeItem('bomgaroto_logged_in');
+        } else if (localStorage.getItem('bomgaroto_logged_in') === 'true') {
+            window.location.replace('dashboard.html');
+        }
+    })();
+</script>
 
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Quicksand:wght@500;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
@@ -481,7 +487,37 @@
         }
     </style>
   </head>
-<body class="bg-[#f0f4f6] dark:bg-[#1a1e20] paw-pattern min-h-screen flex items-center justify-center p-4 transition-colors duration-500">
+<body class="bg-[#f0f4f6] dark:bg-[#1a1e20] paw-pattern min-h-screen flex items-center justify-center p-4 transition-colors duration-500 overflow-hidden">
+
+<!-- Splash Screen Luxuosa (Ativada no Login) -->
+<div id="splash-screen" class="fixed inset-0 z-[10000] bg-[#006577] dark:bg-[#002f37] flex flex-col items-center justify-center transition-all duration-1000 opacity-0 pointer-events-none">
+    <!-- Fundo com Partículas e Brilho -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-container/20 rounded-full blur-[120px] animate-pulse"></div>
+        <div class="bubble-particle b1 !w-32 !h-32 !opacity-20" style="left: 10%; top: 20%;"></div>
+        <div class="bubble-particle b3 !w-48 !h-48 !opacity-10" style="right: 15%; bottom: 10%;"></div>
+        <div class="bubble-particle b5 !w-24 !h-24 !opacity-15" style="left: 20%; bottom: 30%;"></div>
+    </div>
+
+    <!-- Conteúdo Central -->
+    <div class="relative z-10 flex flex-col items-center animate-reveal">
+        <div class="w-48 h-48 mb-8 relative">
+            <!-- Glow por trás da logo -->
+            <div class="absolute inset-0 bg-white/20 rounded-full blur-3xl animate-ping opacity-40"></div>
+            <img src="logoTransparente.png" alt="Bom Garoto" class="w-full h-full object-contain floating-3d drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+        </div>
+        
+        <h2 class="text-white font-headline-xl text-3xl font-black tracking-tighter uppercase italic animate-pulse">Carregando Experiência</h2>
+        <div class="mt-4 flex gap-2">
+            <div class="w-2 h-2 bg-white/30 rounded-full animate-bounce" style="animation-delay: 0s;"></div>
+            <div class="w-2 h-2 bg-white/50 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+            <div class="w-2 h-2 bg-white/80 rounded-full animate-bounce" style="animation-delay: 0.4s;"></div>
+        </div>
+    </div>
+    
+    <!-- Rodapé Minimalista -->
+    <p class="absolute bottom-12 text-white/40 font-bold uppercase tracking-[0.3em] text-[10px]">Bom Garoto • Premium Complexo Canino</p>
+</div>
 <main class="w-full max-w-md relative z-10">
 <!-- Hero & Branding -->
 <div class="flex flex-col items-center mb-6">
@@ -621,9 +657,32 @@
                 errorMessage.classList.add('hidden');
 
                 if (email === 'bomgaroto@admin.com') {
-                    // Credenciais válidas -> Salvar sessão e redirecionar
-                    localStorage.setItem('bomgaroto_logged_in', 'true');
-                    window.location.href = 'dashboard.html';
+                    // Credenciais válidas -> Ativar Splash Screen Luxuosa
+                    const splash = document.getElementById('splash-screen');
+                    if (splash) {
+                        splash.classList.remove('opacity-0', 'pointer-events-none');
+                        splash.classList.add('opacity-100', 'pointer-events-auto');
+                        
+                        // Feedback tátil de início de carga
+                        if (navigator.vibrate) navigator.vibrate([10, 30, 10]);
+                        
+                        // Aguardar 3 segundos com a logo brilhando
+                        setTimeout(() => {
+                            // Efeito de transição de saída (zoom in)
+                            splash.style.transform = 'scale(1.5)';
+                            splash.style.opacity = '0';
+                            
+                            setTimeout(() => {
+                                // Salvar sessão e redirecionar
+                                localStorage.setItem('bomgaroto_logged_in', 'true');
+                                window.location.href = 'dashboard.html';
+                            }, 800); // tempo do fade-out final
+                        }, 3000); // 3 segundos de splash
+                    } else {
+                        // Fallback caso a splash falhe
+                        localStorage.setItem('bomgaroto_logged_in', 'true');
+                        window.location.href = 'dashboard.html';
+                    }
                 } else {
                     // Credenciais inválidas -> exibir mensagem e aplicar tremor (shake)
                     errorMessage.classList.remove('hidden');
@@ -636,12 +695,6 @@
                     }
                 }
             });
-        }
-
-        // Verificação de Sessão Persistente (Auto-login)
-        if (localStorage.getItem('bomgaroto_logged_in') === 'true') {
-            window.location.replace('dashboard.html');
-            return;
         }
 
         // Prevenir foco automático forçado pelo navegador ao carregar a página

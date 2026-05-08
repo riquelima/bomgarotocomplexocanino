@@ -1942,7 +1942,7 @@
             
             <div class="grid grid-cols-2 gap-3">
                 <!-- Tema Azul (Original) -->
-                <button onclick="applySystemTheme('default')" id="theme-btn-default" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-primary transition-all duration-300 text-left hover:scale-[1.02] group">
+                <button onclick="applySystemTheme('default', true)" id="theme-btn-default" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-primary transition-all duration-300 text-left hover:scale-[1.02] group">
                     <div class="w-8 h-8 rounded-full bg-[#006577] border border-white/20 flex items-center justify-center shadow-inner shrink-0 group-hover:rotate-12 transition-transform">
                         <span class="material-symbols-outlined text-[16px] text-white" id="theme-check-default">check</span>
                     </div>
@@ -1953,7 +1953,7 @@
                 </button>
 
                 <!-- Tema Dark (Notion) -->
-                <button onclick="applySystemTheme('dark')" id="theme-btn-dark" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 text-left hover:scale-[1.02] group">
+                <button onclick="applySystemTheme('dark', true)" id="theme-btn-dark" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 text-left hover:scale-[1.02] group">
                     <div class="w-8 h-8 rounded-full bg-[#191919] border border-white/20 flex items-center justify-center shadow-inner shrink-0 group-hover:rotate-12 transition-transform" id="theme-circle-dark">
                         <div class="w-4 h-4 rounded-full bg-[#4792a5]"></div>
                     </div>
@@ -1964,7 +1964,7 @@
                 </button>
 
                 <!-- Tema Cinza -->
-                <button onclick="applySystemTheme('gray')" id="theme-btn-gray" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 text-left hover:scale-[1.02] group">
+                <button onclick="applySystemTheme('gray', true)" id="theme-btn-gray" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 text-left hover:scale-[1.02] group">
                     <div class="w-8 h-8 rounded-full bg-[#f1f3f5] border border-black/10 flex items-center justify-center shadow-inner shrink-0 group-hover:rotate-12 transition-transform" id="theme-circle-gray">
                         <div class="w-4 h-4 rounded-full bg-[#5a5d64]"></div>
                     </div>
@@ -1975,7 +1975,7 @@
                 </button>
 
                 <!-- Tema Rosa -->
-                <button onclick="applySystemTheme('pink')" id="theme-btn-pink" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 text-left hover:scale-[1.02] group">
+                <button onclick="applySystemTheme('pink', true)" id="theme-btn-pink" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 text-left hover:scale-[1.02] group">
                     <div class="w-8 h-8 rounded-full bg-[#fdf2f4] border border-black/5 flex items-center justify-center shadow-inner shrink-0 group-hover:rotate-12 transition-transform" id="theme-circle-pink">
                         <div class="w-4 h-4 rounded-full bg-[#d81b60]"></div>
                     </div>
@@ -1986,7 +1986,7 @@
                 </button>
 
                 <!-- Tema Roxo -->
-                <button onclick="applySystemTheme('purple')" id="theme-btn-purple" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 text-left hover:scale-[1.02] group">
+                <button onclick="applySystemTheme('purple', true)" id="theme-btn-purple" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 text-left hover:scale-[1.02] group">
                     <div class="w-8 h-8 rounded-full bg-[#f8f6fc] border border-black/5 flex items-center justify-center shadow-inner shrink-0 group-hover:rotate-12 transition-transform" id="theme-circle-purple">
                         <div class="w-4 h-4 rounded-full bg-[#6f42c1]"></div>
                     </div>
@@ -1997,7 +1997,7 @@
                 </button>
 
                 <!-- Tema Vermelho -->
-                <button onclick="applySystemTheme('red')" id="theme-btn-red" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 text-left hover:scale-[1.02] group">
+                <button onclick="applySystemTheme('red', true)" id="theme-btn-red" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 text-left hover:scale-[1.02] group">
                     <div class="w-8 h-8 rounded-full bg-[#fff5f5] border border-black/5 flex items-center justify-center shadow-inner shrink-0 group-hover:rotate-12 transition-transform" id="theme-circle-red">
                         <div class="w-4 h-4 rounded-full bg-[#c62828]"></div>
                     </div>
@@ -2008,7 +2008,7 @@
                 </button>
 
                 <!-- Tema Preto e Branco -->
-                <button onclick="applySystemTheme('monochrome')" id="theme-btn-monochrome" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 col-span-2 text-left hover:scale-[1.01] group">
+                <button onclick="applySystemTheme('monochrome', true)" id="theme-btn-monochrome" class="flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-surface-container-highest border-2 border-transparent transition-all duration-300 col-span-2 text-left hover:scale-[1.01] group">
                     <div class="w-8 h-8 rounded-full bg-[#ffffff] border-2 border-black flex items-center justify-center shadow-inner shrink-0 group-hover:rotate-12 transition-transform" id="theme-circle-monochrome">
                         <div class="w-4 h-4 rounded-full bg-[#000000]"></div>
                     </div>
@@ -2301,12 +2301,13 @@
     function handleLogoutSPA() {
         if (confirm('Deseja realmente sair do sistema?')) {
             localStorage.removeItem('bomgaroto_logged_in');
-            window.location.href = 'login.html';
+            // Usamos replace para remover a página atual do histórico e evitar loops
+            window.location.replace('login.html?logout=true');
         }
     }
 
     // === MÓDULO DE CONTROLE DE TEMAS PREMIUM E VISUAL FLUIDO ===
-    function applySystemTheme(themeName) {
+    function applySystemTheme(themeName, isUserAction = false) {
         if (themeName === 'default') {
             document.documentElement.removeAttribute('data-theme');
         } else {
@@ -2360,7 +2361,7 @@
             }
         });
 
-        if (navigator.vibrate) navigator.vibrate(15);
+        if (isUserAction && navigator.vibrate) navigator.vibrate(15);
     }
 
     // Inicialização automática do tema ao carregar

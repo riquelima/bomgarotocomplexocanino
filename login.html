@@ -30,9 +30,13 @@
 <script>
     (function() {
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('logout') === 'true') {
+        const justLoggedOut = sessionStorage.getItem('just_logged_out') === 'true';
+
+        if (urlParams.get('logout') === 'true' || justLoggedOut) {
             localStorage.clear();
             sessionStorage.clear();
+            // Mantemos a flag no sessionStorage por apenas 1 segundo para evitar loop
+            sessionStorage.setItem('just_logged_out', 'done');
         } else if (localStorage.getItem('bg_session_active') === 'true') {
             window.location.replace('dashboard.html');
         }
@@ -491,57 +495,67 @@
 <body class="bg-[#f0f4f6] dark:bg-[#1a1e20] paw-pattern min-h-screen flex items-center justify-center p-4 transition-colors duration-500 overflow-hidden">
 
 <!-- Splash Screen de Luxo: Revelação por Bolhas (Bubbles Revelation) -->
-<div id="splash-screen" class="fixed inset-0 z-[10000] bg-[#1a1e20]/95 backdrop-blur-md flex flex-col items-center justify-center transition-all duration-700 opacity-0 pointer-events-none overflow-hidden">
-    <!-- Container de Partículas Orbitais -->
-    <div class="absolute inset-0 pointer-events-none">
-        <div class="bubble-particle b1 !w-64 !h-64 !bg-primary/20 blur-2xl animate-orbit" style="--d: 0s; --r: 200px;"></div>
-        <div class="bubble-particle b3 !w-40 !h-40 !bg-primary/10 blur-xl animate-orbit" style="--d: -2s; --r: 150px;"></div>
-        <div class="bubble-particle b5 !w-32 !h-32 !bg-primary/30 blur-3xl animate-orbit" style="--d: -4s; --r: 250px;"></div>
-        <div class="bubble-particle b2 !w-20 !h-20 !bg-white/10 blur-lg animate-orbit" style="--d: -1s; --r: 180px;"></div>
+<div id="splash-screen" class="fixed inset-0 z-[10000] bg-[#1a1e20] backdrop-blur-md flex flex-col items-center justify-center transition-all duration-700 opacity-0 pointer-events-none overflow-hidden">
+    <!-- Container de Partículas Orbitais (Surgem primeiro) -->
+    <div class="absolute inset-0 pointer-events-none flex items-center justify-center">
+        <div class="bubble-particle !w-80 !h-80 !bg-primary/20 blur-3xl animate-pop-orbit" style="--d: 0s; --r: 180px; --s: 1.2;"></div>
+        <div class="bubble-particle !w-60 !h-60 !bg-primary/10 blur-2xl animate-pop-orbit" style="--d: 0.2s; --r: 140px; --s: 1;"></div>
+        <div class="bubble-particle !w-44 !h-44 !bg-primary/30 blur-3xl animate-pop-orbit" style="--d: 0.4s; --r: 220px; --s: 0.8;"></div>
+        <div class="bubble-particle !w-32 !h-32 !bg-white/10 blur-xl animate-pop-orbit" style="--d: 0.1s; --r: 160px; --s: 1.1;"></div>
     </div>
 
-    <!-- Conteúdo Central Reativo -->
+    <!-- Conteúdo Central -->
     <div class="relative z-10 flex flex-col items-center">
-        <!-- Logo com efeito de flutuação e brilho -->
-        <div class="w-56 h-56 mb-6 relative animate-reveal-slow">
-            <div class="absolute inset-0 bg-primary/20 rounded-full blur-[60px] animate-pulse"></div>
-            <img src="logoTransparente.png" alt="Bom Garoto" class="w-full h-full object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.2)] floating-3d">
+        <!-- Logo Maior com Revelação de Impacto -->
+        <div class="w-72 h-72 mb-8 relative animate-logo-pop">
+            <div class="absolute inset-0 bg-primary/25 rounded-full blur-[80px] animate-pulse"></div>
+            <img src="logoTransparente.png" alt="Bom Garoto" class="w-full h-full object-contain drop-shadow-[0_0_60px_rgba(255,255,255,0.25)] floating-3d">
         </div>
         
-        <!-- Loading Spinner Minimalista -->
-        <div class="flex flex-col items-center gap-4">
-            <div class="relative w-12 h-12">
-                <div class="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
-                <div class="absolute inset-0 border-4 border-t-primary rounded-full animate-spin"></div>
+        <!-- Spinner e Texto -->
+        <div class="flex flex-col items-center gap-6 animate-fade-in" style="animation-delay: 1s; opacity: 0; animation-fill-mode: forwards;">
+            <div class="relative w-14 h-14">
+                <div class="absolute inset-0 border-[5px] border-primary/20 rounded-full"></div>
+                <div class="absolute inset-0 border-[5px] border-t-primary rounded-full animate-spin"></div>
             </div>
-            <p class="text-white/60 font-bold uppercase tracking-[0.4em] text-[10px] animate-pulse">Iniciando Experiência</p>
+            <p class="text-white/50 font-bold uppercase tracking-[0.5em] text-[11px] animate-pulse">Iniciando Experiência</p>
         </div>
     </div>
 
     <style>
-        @keyframes orbit {
-            from { transform: rotate(0deg) translateX(var(--r)) rotate(0deg); }
-            to { transform: rotate(360deg) translateX(var(--r)) rotate(-360deg); }
+        /* Animação de Surgimento das Bolhas do Centro */
+        @keyframes popOrbit {
+            0% { transform: scale(0) rotate(0deg) translateX(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: scale(var(--s)) rotate(360deg) translateX(var(--r)) rotate(-360deg); opacity: 1; }
         }
-        .animate-orbit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin: -50px;
-            animation: orbit 15s linear infinite;
+        .animate-pop-orbit {
+            animation: popOrbit 2s cubic-bezier(0.16, 1, 0.3, 1) forwards, orbit 20s linear infinite 2s;
             animation-delay: var(--d);
+            opacity: 0;
         }
-        .animate-reveal-slow {
-            animation: revealSlow 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        @keyframes orbit {
+            from { transform: scale(var(--s)) rotate(0deg) translateX(var(--r)) rotate(0deg); }
+            to { transform: scale(var(--s)) rotate(360deg) translateX(var(--r)) rotate(-360deg); }
         }
-        @keyframes revealSlow {
-            0% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+
+        /* Animação de Revelação da Logo (Surge depois das bolhas) */
+        @keyframes logoPop {
+            0% { transform: scale(0) translateY(40px); filter: blur(20px); opacity: 0; }
+            60% { transform: scale(1.1) translateY(-10px); filter: blur(0); opacity: 1; }
+            100% { transform: scale(1) translateY(0); filter: blur(0); opacity: 1; }
         }
+        .animate-logo-pop {
+            animation: logoPop 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 0.5s;
+            opacity: 0;
+        }
+
         .splash-exit-bubbles {
-            transform: scale(2) !important;
+            transform: scale(2.5) !important;
             opacity: 0 !important;
-            filter: blur(20px);
+            filter: blur(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
     </style>
 </div>

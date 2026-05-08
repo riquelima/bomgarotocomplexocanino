@@ -26,12 +26,30 @@
         window.location.replace('login.html');
     }
 
-    // Função de Logout Global (Prioridade Máxima)
-    window.handleLogoutSPA = function() {
-        console.log("Iniciando logout seguro...");
-        localStorage.clear();
-        sessionStorage.clear();
-        window.location.replace('login.html?logout=true');
+    // Função de Logout Global (Blindada contra extensões e erros de spoofer.js)
+    window.handleLogoutSPA = function(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        
+        console.log("Iniciando logout seguro e blindado...");
+        
+        try {
+            // Limpeza forçada de todos os estados
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // Marca opcional para o login saber que foi um logout manual recente
+            sessionStorage.setItem('just_logged_out', 'true');
+        } catch (err) {
+            console.warn("Aviso na limpeza de storage (extensão interferindo), prosseguindo...", err);
+        }
+
+        // Delay de 150ms para garantir a atomicidade da limpeza antes da mudança de página
+        setTimeout(() => {
+            window.location.href = 'login.html?logout=true';
+        }, 150);
     };
 </script>
 
@@ -512,36 +530,46 @@
             transform: scale(0.96);
         }
 
-        /* --- ESTILOS PARA SPLASH SCREEN E BOLHAS ORBITAIS --- */
+        /* --- ESTILOS PARA SPLASH SCREEN E BOLHAS ORBITAIS (REVELAÇÃO PREMIUM) --- */
         .bubble-particle {
             position: absolute;
             border-radius: 50%;
             pointer-events: none;
             z-index: 10001;
         }
-        @keyframes orbit {
-            from { transform: rotate(0deg) translateX(var(--r)) rotate(0deg); }
-            to { transform: rotate(360deg) translateX(var(--r)) rotate(-360deg); }
+        /* Animação de Surgimento das Bolhas do Centro */
+        @keyframes popOrbit {
+            0% { transform: scale(0) rotate(0deg) translateX(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: scale(var(--s)) rotate(360deg) translateX(var(--r)) rotate(-360deg); opacity: 1; }
         }
-        .animate-orbit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin: -50px;
-            animation: orbit 15s linear infinite;
+        .animate-pop-orbit {
+            animation: popOrbit 2s cubic-bezier(0.16, 1, 0.3, 1) forwards, orbit 20s linear infinite 2s;
             animation-delay: var(--d);
+            opacity: 0;
         }
-        .animate-reveal-slow {
-            animation: revealSlow 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        @keyframes orbit {
+            from { transform: scale(var(--s)) rotate(0deg) translateX(var(--r)) rotate(0deg); }
+            to { transform: scale(var(--s)) rotate(360deg) translateX(var(--r)) rotate(-360deg); }
         }
-        @keyframes revealSlow {
-            0% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+
+        /* Animação de Revelação da Logo (Zoom Pop) */
+        @keyframes logoPop {
+            0% { transform: scale(0) translateY(40px); filter: blur(20px); opacity: 0; }
+            60% { transform: scale(1.1) translateY(-10px); filter: blur(0); opacity: 1; }
+            100% { transform: scale(1) translateY(0); filter: blur(0); opacity: 1; }
         }
+        .animate-logo-pop {
+            animation: logoPop 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 0.5s;
+            opacity: 0;
+        }
+
         .splash-exit-bubbles {
-            transform: scale(2) !important;
+            transform: scale(2.5) !important;
             opacity: 0 !important;
-            filter: blur(20px);
+            filter: blur(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
     </style>
   </head>
@@ -549,28 +577,29 @@
 
 <!-- Splash Screen de Entrada: Revelação por Bolhas (Executa em cada Load) -->
 <div id="dashboard-splash" class="fixed inset-0 z-[10000] bg-[#1a1e20] flex flex-col items-center justify-center transition-all duration-1000 overflow-hidden">
-    <!-- Container de Partículas Orbitais -->
-    <div class="absolute inset-0 pointer-events-none">
-        <div class="bubble-particle !w-64 !h-64 !bg-primary/20 blur-2xl animate-orbit" style="--d: 0s; --r: 220px;"></div>
-        <div class="bubble-particle !w-40 !h-40 !bg-primary/10 blur-xl animate-orbit" style="--d: -2.5s; --r: 160px;"></div>
-        <div class="bubble-particle !w-32 !h-32 !bg-primary/30 blur-3xl animate-orbit" style="--d: -5s; --r: 280px;"></div>
-        <div class="bubble-particle !w-20 !h-20 !bg-white/10 blur-lg animate-orbit" style="--d: -1.5s; --r: 190px;"></div>
+    <!-- Container de Partículas Orbitais (Surgem primeiro) -->
+    <div class="absolute inset-0 pointer-events-none flex items-center justify-center">
+        <div class="bubble-particle !w-80 !h-80 !bg-primary/20 blur-3xl animate-pop-orbit" style="--d: 0s; --r: 200px; --s: 1.2;"></div>
+        <div class="bubble-particle !w-60 !h-60 !bg-primary/10 blur-2xl animate-pop-orbit" style="--d: 0.2s; --r: 150px; --s: 1;"></div>
+        <div class="bubble-particle !w-44 !h-44 !bg-primary/30 blur-3xl animate-pop-orbit" style="--d: 0.4s; --r: 240px; --s: 0.8;"></div>
+        <div class="bubble-particle !w-32 !h-32 !bg-white/10 blur-xl animate-pop-orbit" style="--d: 0.1s; --r: 180px; --s: 1.1;"></div>
     </div>
 
     <!-- Conteúdo Central -->
     <div class="relative z-10 flex flex-col items-center">
-        <div class="w-56 h-56 mb-8 relative animate-reveal-slow">
-            <div class="absolute inset-0 bg-primary/20 rounded-full blur-[60px] animate-pulse"></div>
-            <img src="logoTransparente.png" alt="Bom Garoto" class="w-full h-full object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.2)] floating-3d">
+        <!-- Logo Maior com Revelação de Impacto -->
+        <div class="w-72 h-72 mb-8 relative animate-logo-pop">
+            <div class="absolute inset-0 bg-primary/25 rounded-full blur-[80px] animate-pulse"></div>
+            <img src="logoTransparente.png" alt="Bom Garoto" class="w-full h-full object-contain drop-shadow-[0_0_60px_rgba(255,255,255,0.25)] floating-3d">
         </div>
         
         <!-- Loading Spinner Premium -->
-        <div class="flex flex-col items-center gap-4">
-            <div class="relative w-12 h-12">
-                <div class="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
-                <div class="absolute inset-0 border-4 border-t-primary rounded-full animate-spin"></div>
+        <div class="flex flex-col items-center gap-6">
+            <div class="relative w-14 h-14">
+                <div class="absolute inset-0 border-[5px] border-primary/20 rounded-full"></div>
+                <div class="absolute inset-0 border-[5px] border-t-primary rounded-full animate-spin"></div>
             </div>
-            <p class="text-white/60 font-bold uppercase tracking-[0.4em] text-[10px] animate-pulse">Sincronizando Dados</p>
+            <p class="text-white/50 font-bold uppercase tracking-[0.5em] text-[11px] animate-pulse">Sincronizando Dados</p>
         </div>
     </div>
 </div>
@@ -2168,7 +2197,7 @@
 
         <!-- Ação de Deslogar -->
         <section class="pt-4 animate-fade-in-up" style="animation-delay: 0.2s;">
-            <button onclick="handleLogoutSPA()" class="w-full bg-red-500/10 hover:bg-red-500/15 text-red-600 dark:text-red-400 border border-red-500/20 font-black py-4 rounded-2xl shadow-sm transition-all transform active:scale-95 flex items-center justify-center gap-2">
+            <button onclick="handleLogoutSPA(event)" class="w-full bg-red-500/10 hover:bg-red-500/15 text-red-600 dark:text-red-400 border border-red-500/20 font-black py-4 rounded-2xl shadow-sm transition-all transform active:scale-95 flex items-center justify-center gap-2">
                 <span class="material-symbols-outlined text-[20px]">logout</span>
                 Deslogar do Sistema
             </button>

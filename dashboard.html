@@ -19,6 +19,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="Bom Garoto" />
 
+<!-- Segurança: Verificação de Sessão Imediata -->
+<script>
+    if (localStorage.getItem('bomgaroto_logged_in') !== 'true') {
+        window.location.replace('login.html');
+    }
+</script>
+
 <!-- Metatags Open Graph (Pré-visualização de Link no WhatsApp, Instagram, Telegram) -->
 <meta property="og:title" content="Bom Garoto - Complexo Canino" />
 <meta property="og:description" content="O sistema premium de agendamento, creche e hotelaria canina do Bom Garoto!" />
@@ -2258,6 +2265,7 @@
                 const icon = btnSchedule.querySelector('.material-symbols-outlined');
                 if (icon) icon.style.fontVariationSettings = "'FILL' 1";
             }
+        }
     }
 
     // Função para voltar (Swipe Back)
@@ -2288,6 +2296,14 @@
             goBackSPA();
         }
     }, { passive: true });
+
+    // Função de Logout com limpeza de sessão persistente
+    function handleLogoutSPA() {
+        if (confirm('Deseja realmente sair do sistema?')) {
+            localStorage.removeItem('bomgaroto_logged_in');
+            window.location.href = 'login.html';
+        }
+    }
 
     // === MÓDULO DE CONTROLE DE TEMAS PREMIUM E VISUAL FLUIDO ===
     function applySystemTheme(themeName) {

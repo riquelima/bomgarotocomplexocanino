@@ -621,7 +621,8 @@
                 errorMessage.classList.add('hidden');
 
                 if (email === 'bomgaroto@admin.com') {
-                    // Credenciais válidas -> redirecionar para a Dashboard
+                    // Credenciais válidas -> Salvar sessão e redirecionar
+                    localStorage.setItem('bomgaroto_logged_in', 'true');
                     window.location.href = 'dashboard.html';
                 } else {
                     // Credenciais inválidas -> exibir mensagem e aplicar tremor (shake)
@@ -635,6 +636,12 @@
                     }
                 }
             });
+        }
+
+        // Verificação de Sessão Persistente (Auto-login)
+        if (localStorage.getItem('bomgaroto_logged_in') === 'true') {
+            window.location.replace('dashboard.html');
+            return;
         }
 
         // Prevenir foco automático forçado pelo navegador ao carregar a página

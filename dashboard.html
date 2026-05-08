@@ -777,6 +777,37 @@
                 </div>
             </div>
         </div>
+
+        <!-- Seção: Documentos do Pet (SPA Luxo Drag & Drop) -->
+        <div class="bg-surface-container-lowest dark:bg-surface-container-high rounded-[32px] p-6 shadow-sm border border-surface-container-high/40 dark:border-white/5 space-y-4 animate-fade-in-up" style="animation-delay: 0.1s;">
+            <div class="flex items-center justify-between border-b border-surface-container-high/40 dark:border-white/5 pb-3">
+                <h3 class="font-label-md text-xs text-primary dark:text-primary-fixed-dim uppercase tracking-wider font-extrabold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+                    Documentos do Pet
+                </h3>
+                <span id="pet-docs-count-badge" class="bg-primary/10 text-primary dark:bg-primary-fixed-dim/20 dark:text-primary-fixed-dim text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0 border border-primary/10">0 arquivos</span>
+            </div>
+
+            <!-- Área Interativa de Drag and Drop -->
+            <div id="pet-docs-dropzone" class="relative overflow-hidden border-2 border-dashed border-primary/20 dark:border-white/15 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer bg-surface-container-low/30 hover:bg-surface-container-low/60 hover:border-primary/50 dark:bg-inverse-surface/10 dark:hover:bg-inverse-surface/20 dark:hover:border-primary-fixed-dim/40 transition-all duration-300 group">
+                <input type="file" id="pet-docs-input" multiple class="hidden" accept=".pdf,image/*,.doc,.docx">
+                
+                <div class="w-12 h-12 rounded-full bg-primary/10 text-primary dark:bg-primary-fixed-dim/15 dark:text-primary-fixed-dim flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                    <span class="material-symbols-outlined text-2xl group-hover:animate-bounce">cloud_upload</span>
+                </div>
+                
+                <p class="text-xs font-bold text-on-surface mb-1">Arraste os arquivos aqui ou <span class="text-primary dark:text-primary-fixed-dim underline">clique para buscar</span></p>
+                <p class="text-[10px] text-outline font-medium">Arquivos suportados: PDF, Imagem ou DOC (Máx: 15MB)</p>
+            </div>
+
+            <!-- Lista de Documentos Carregados -->
+            <div id="pet-docs-list" class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                <div id="pet-docs-empty" class="text-center py-6">
+                    <span class="material-symbols-outlined text-outline/40 text-4xl mb-1">description</span>
+                    <p class="text-[11px] text-outline font-bold uppercase tracking-wider">Nenhum anexo adicionado</p>
+                </div>
+            </div>
+        </div>
     </main>
 </section> <!-- Fechamento de view-detalhes-pet -->
 
@@ -2151,6 +2182,138 @@
         renderPets();
     }
 
+    // === MÓDULO DE DOCUMENTOS DO PET (DRAG & DROP REATIVO EM MEMÓRIA) ===
+    let petDocumentsDatabase = {};
+
+    function renderPetDocuments() {
+        const key = window.activePetKey;
+        const listContainer = document.getElementById('pet-docs-list');
+        const countBadge = document.getElementById('pet-docs-count-badge');
+        const emptyState = document.getElementById('pet-docs-empty');
+
+        if (!listContainer || !countBadge) return;
+
+        const docs = petDocumentsDatabase[key] || [];
+        countBadge.innerText = `${docs.length} ${docs.length === 1 ? 'arquivo' : 'arquivos'}`;
+
+        if (docs.length === 0) {
+            listContainer.innerHTML = '';
+            if (emptyState) {
+                listContainer.appendChild(emptyState);
+                emptyState.classList.remove('hidden');
+            }
+            return;
+        }
+
+        if (emptyState) emptyState.classList.add('hidden');
+        listContainer.innerHTML = '';
+
+        docs.forEach((doc, idx) => {
+            const item = document.createElement('div');
+            item.className = "flex items-center gap-3 p-3 rounded-2xl bg-surface-container-low dark:bg-inverse-surface border border-surface-container-high/20 hover:scale-[1.01] transition-transform";
+            
+            let docIcon = "description";
+            let iconBgClass = "bg-primary/10 text-primary";
+            if (doc.type.includes('pdf')) {
+                docIcon = "picture_as_pdf";
+                iconBgClass = "bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400";
+            } else if (doc.type.includes('image')) {
+                docIcon = "image";
+                iconBgClass = "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400";
+            } else if (doc.type.includes('word') || doc.type.includes('doc')) {
+                docIcon = "article";
+                iconBgClass = "bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400";
+            }
+
+            item.innerHTML = `
+                <div class="w-10 h-10 rounded-xl ${iconBgClass} flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-[20px]">${docIcon}</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-xs font-bold text-on-surface truncate">${doc.name}</h4>
+                    <p class="text-[9px] text-outline font-semibold uppercase tracking-wider">${doc.size} • ${doc.date}</p>
+                </div>
+                <button onclick="removePetDocument(${idx})" class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:text-error hover:bg-error/10 active:scale-90 transition-all">
+                    <span class="material-symbols-outlined text-[18px]">delete</span>
+                </button>
+            `;
+            listContainer.appendChild(item);
+        });
+    }
+
+    function removePetDocument(idx) {
+        const key = window.activePetKey;
+        if (petDocumentsDatabase[key]) {
+            petDocumentsDatabase[key].splice(idx, 1);
+            renderPetDocuments();
+            if (navigator.vibrate) navigator.vibrate(15);
+        }
+    }
+
+    function addPetDocuments(files) {
+        const key = window.activePetKey;
+        if (!petDocumentsDatabase[key]) {
+            petDocumentsDatabase[key] = [];
+        }
+
+        const today = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+
+        Array.from(files).forEach(file => {
+            let sizeStr = `${(file.size / 1024).toFixed(1)} KB`;
+            if (file.size > 1024 * 1024) {
+                sizeStr = `${(file.size / (1024 * 1024)).toFixed(1)} MB`;
+            }
+
+            petDocumentsDatabase[key].push({
+                name: file.name,
+                type: file.type,
+                size: sizeStr,
+                date: today
+            });
+        });
+
+        renderPetDocuments();
+        if (navigator.vibrate) navigator.vibrate([30, 50]);
+    }
+
+    // Configuração reativa dos listeners Drag & Drop ao carregar
+    document.addEventListener('DOMContentLoaded', () => {
+        const dropzone = document.getElementById('pet-docs-dropzone');
+        const fileInput = document.getElementById('pet-docs-input');
+
+        if (dropzone && fileInput) {
+            dropzone.addEventListener('click', () => fileInput.click());
+
+            fileInput.addEventListener('change', e => {
+                if (e.target.files.length > 0) {
+                    addPetDocuments(e.target.files);
+                }
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, e => {
+                    e.preventDefault();
+                    dropzone.classList.add('border-primary', 'bg-primary/5', 'scale-[1.01]');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, e => {
+                    e.preventDefault();
+                    dropzone.classList.remove('border-primary', 'bg-primary/5', 'scale-[1.01]');
+                }, false);
+            });
+
+            dropzone.addEventListener('drop', e => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files.length > 0) {
+                    addPetDocuments(files);
+                }
+            }, false);
+        }
+    });
+
     function exibirDetalhesPetSPA(petName, breed, tutor, imgUrl, plan) {
         // Mapeia informações do tutor ou coloca dados realísticos de luxo
         document.getElementById('detail-pet-name').innerText = petName;
@@ -2166,6 +2329,10 @@
 
         document.getElementById('detail-pet-phone').innerText = phones[idx];
         document.getElementById('detail-pet-address').innerText = addresses[idx];
+
+        // Inicializa e renderiza documentos anexados para o pet atual
+        window.activePetKey = `${tutor}_${petName}`;
+        renderPetDocuments();
 
         // Transiciona suavemente para a aba de detalhes de pet!
         switchTab('detalhes-pet');

@@ -2177,8 +2177,12 @@
         });
     });
 
-    // Lógica de Transição Suave de SPA por Abas Deslizantes (Padrão MatchFlix)
-    function switchTab(tabName) {
+    // Sistema de Histórico e Gestos para Experiência Nativa (iOS Style)
+    let navigationHistory = ['dashboard'];
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    function switchTab(tabName, pushToHistory = true) {
         const slider = document.getElementById('view-slider');
         const btnDash = document.getElementById('btn-nav-dash');
         const btnClients = document.getElementById('btn-nav-clients');
@@ -2187,6 +2191,11 @@
         const btnSchedule = document.getElementById('btn-nav-schedule');
         
         if (!slider) return;
+
+        // Gerenciar Histórico para Swipe Back
+        if (pushToHistory && navigationHistory[navigationHistory.length - 1] !== tabName) {
+            navigationHistory.push(tabName);
+        }
 
         // Resetar todos os botões do menu inferior para estilo inativo
         const resetButtons = () => {
@@ -2249,8 +2258,36 @@
                 const icon = btnSchedule.querySelector('.material-symbols-outlined');
                 if (icon) icon.style.fontVariationSettings = "'FILL' 1";
             }
+    }
+
+    // Função para voltar (Swipe Back)
+    function goBackSPA() {
+        if (navigationHistory.length > 1) {
+            navigationHistory.pop(); // Remove a tela atual
+            const previousTab = navigationHistory[navigationHistory.length - 1];
+            switchTab(previousTab, false); // Navega sem adicionar ao histórico novamente
+            if (navigator.vibrate) navigator.vibrate(10);
         }
     }
+
+    // Listeners de Gestos Swipe (Detecção de Borda Esquerda Style iOS)
+    document.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', e => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = Math.abs(touchEndY - touchStartY);
+
+        // Gesto: Deslizar da Esquerda para a Direita (Back Gesture)
+        // Requisitos: DeltaX > 100px, Movimento Vertical < 50px, Início na borda (< 60px)
+        if (deltaX > 100 && deltaY < 50 && touchStartX < 60) {
+            goBackSPA();
+        }
+    }, { passive: true });
 
     // === MÓDULO DE CONTROLE DE TEMAS PREMIUM E VISUAL FLUIDO ===
     function applySystemTheme(themeName) {

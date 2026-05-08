@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bom Garoto - Pacotes</title>
+<script>
+    // Redireciona imediatamente para o contexto de SPA com transição horizontal suave e BottomNavBar!
+    window.location.replace("dashboard.html?tab=pacotes");
+</script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&amp;family=Nunito+Sans:wght@400&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config from Brand Anchors -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#3e484c",
+                    "on-secondary-fixed": "#1a1c1e",
+                    "secondary-fixed": "#e2e2e5",
+                    "on-primary-container": "#f9fdff",
+                    "surface-container-highest": "#dfe3e5",
+                    "on-primary-fixed-variant": "#004e5d",
+                    "on-secondary-fixed-variant": "#45474a",
+                    "tertiary-container": "#a4661e",
+                    "tertiary": "#874f02",
+                    "inverse-surface": "#2c3133",
+                    "outline-variant": "#bdc8cc",
+                    "on-error-container": "#93000a",
+                    "background": "#f6fafc",
+                    "primary": "#006577",
+                    "surface-container": "#ebeef0",
+                    "surface-bright": "#f6fafc",
+                    "outline": "#6e797c",
+                    "inverse-on-surface": "#edf1f3",
+                    "on-tertiary-container": "#fffbff",
+                    "primary-fixed-dim": "#72d4ed",
+                    "surface": "#f6fafc",
+                    "surface-dim": "#d7dbdc",
+                    "on-tertiary-fixed-variant": "#693c00",
+                    "on-tertiary-fixed": "#2c1600",
+                    "tertiary-fixed-dim": "#ffb870",
+                    "surface-variant": "#dfe3e5",
+                    "secondary-container": "#dfdfe2",
+                    "secondary": "#5d5e61",
+                    "primary-container": "#008096",
+                    "surface-tint": "#00687a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#616265",
+                    "surface-container-high": "#e5e9ea",
+                    "inverse-primary": "#72d4ed",
+                    "surface-container-low": "#f0f4f6",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#c6c6c9",
+                    "on-surface": "#181c1e",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed": "#ffdcbe",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#001f26",
+                    "on-error": "#ffffff",
+                    "primary-fixed": "#adecff",
+                    "on-background": "#181c1e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "64px",
+                    "margin": "32px",
+                    "lg": "48px",
+                    "gutter": "24px",
+                    "base": "8px",
+                    "xs": "4px",
+                    "md": "24px",
+                    "sm": "12px"
+            },
+            "fontFamily": {
+                    "headline-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "headline-md": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-md": [
+                            "Nunito Sans"
+                    ],
+                    "body-lg": [
+                            "Nunito Sans"
+                    ],
+                    "headline-xl": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-sm": [
+                            "Nunito Sans"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "label-sm": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-xl": [
+                            "40px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+    
+    /* Hide scrollbar for horizontal scrolling */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen pb-[100px] md:pb-0 md:pt-20">
+<!-- TopAppBar (Shared Component) -->
+<header class="fixed top-0 w-full z-40 bg-surface shadow-[0_4px_20px_-2px_rgba(0,101,119,0.08)] shadow-sm">
+<div class="flex justify-between items-center w-full px-margin h-16 max-w-7xl mx-auto">
+<button class="flex items-center justify-center p-2 text-primary hover:bg-surface-variant/50 rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">search</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Bom Garoto</h1>
+<button class="flex items-center justify-center p-2 text-primary hover:bg-surface-variant/50 rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="max-w-7xl mx-auto px-margin pt-24 pb-lg space-y-lg md:pt-lg">
+<!-- Header & Search/Filter Section -->
+<section class="flex flex-col gap-sm">
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Pacotes Ativos</h2>
+<div class="flex gap-sm w-full">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full h-12 pl-10 pr-4 bg-surface-container-highest shadow-inner rounded-lg border-none focus:ring-1 focus:ring-primary text-on-surface font-body-md placeholder:text-on-surface-variant/70 transition-shadow" placeholder="Buscar pet ou cliente..." type="text"/>
+</div>
+<button class="h-12 w-12 flex items-center justify-center bg-surface-container-lowest rounded-lg shadow-sm text-primary hover:bg-surface-variant transition-colors shrink-0">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</section>
+<!-- Filter Buttons -->
+<section class="flex gap-sm overflow-x-auto scrollbar-hide pb-2 -mx-margin px-margin">
+<button class="flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-on-primary font-label-md shadow-sm whitespace-nowrap active:scale-95 transition-transform shrink-0">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">toys</span>
+        Creche
+        <span class="ml-1 px-2 py-0.5 bg-on-primary/20 rounded-full text-[10px]">12</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-3 rounded-full bg-surface-container-lowest text-on-surface-variant border border-outline-variant font-label-md hover:bg-surface-variant/50 transition-colors whitespace-nowrap shrink-0">
+<span class="material-symbols-outlined text-[20px]">bed</span>
+        Hotel
+        <span class="ml-1 px-2 py-0.5 bg-surface-container-highest rounded-full text-[10px]">5</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-3 rounded-full bg-surface-container-lowest text-on-surface-variant border border-outline-variant font-label-md hover:bg-surface-variant/50 transition-colors whitespace-nowrap shrink-0">
+<span class="material-symbols-outlined text-[20px]">bathtub</span>
+        Banho
+        <span class="ml-1 px-2 py-0.5 bg-surface-container-highest rounded-full text-[10px]">8</span>
+</button>
+</section>
+<!-- Unified Package List Section -->
+<section class="space-y-sm">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-sm">
+<!-- Pet Card 1 (Creche) -->
+<div class="flex items-center gap-md p-sm bg-surface-container-lowest rounded-xl shadow-[0_2px_12px_-4px_rgba(0,101,119,0.08)] hover:shadow-[0_4px_16px_-4px_rgba(0,101,119,0.12)] transition-shadow duration-300 group cursor-pointer relative overflow-hidden">
+<div class="w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-surface-container">
+<img alt="Golden Retriever" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Close up portrait of a happy Golden Retriever dog looking directly at the camera. The lighting is soft, warm, and natural, creating a friendly and approachable mood. The background is a blurred, pristine, light-mode minimal studio setting, perfectly complementing a premium, soft UI aesthetic with subtle turquoise brand accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX7od6bUiw9uOPOpNDtQBDtIf1XoTxB48xllXOnieWttanbkxyhx4KxILEt7BWxQI4OTQt6JFWpaRCR7ARBDFucnXIBJzc6YPKJLRkJN4UTCUlxmzYj4vW6JkHvEAsIQkLYiSmyxvZ0gYtCW6mkXMNmjJTN6J5-RSq8gSSplJUSB_ibjJi4S8FKlE8MhdLMRmkm_mPP_vlopPIlrE_wb61JKpDChoVE6__bgXTmoboo2_PF20QwWhYMxHMYxfHKMa1MslUnEQKG-NR"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-0.5">
+<h4 class="font-label-md text-label-md text-on-surface truncate">Max</h4>
+<span class="font-label-sm text-[10px] px-2 py-0.5 bg-primary-fixed text-on-primary-fixed rounded-full shrink-0">Creche</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Golden Retriever • João Silva</p>
+</div>
+<div class="flex flex-col items-end gap-1 shrink-0">
+<span class="material-symbols-outlined text-outline-variant" style="font-size: 20px;">more_vert</span>
+<span class="font-label-sm text-label-sm text-primary">Presente</span>
+</div>
+</div>
+<!-- Pet Card 2 (Creche) -->
+<div class="flex items-center gap-md p-sm bg-surface-container-lowest rounded-xl shadow-[0_2px_12px_-4px_rgba(0,101,119,0.08)] hover:shadow-[0_4px_16px_-4px_rgba(0,101,119,0.12)] transition-shadow duration-300 group cursor-pointer relative overflow-hidden">
+<div class="w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-surface-container">
+<img alt="Beagle" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Close up portrait of an adorable Beagle puppy with floppy ears. The lighting is bright and high-key, emphasizing the soft textures of its fur. The background is a clean, out-of-focus soft white space with gentle pastel hints, designed to fit seamlessly into a modern, airy pet care application design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2dOkBmDYp71jM86XCqIaIfLKP9KCkkPM82ty24Mx9LAt0A0tP7z72-8WQ70BoQQqi-X4d9-nnCuCgKIYyxGK28d8v0DbhA6WkV1CbvF2HnU6y_HbH8B9qBIVGnToZ5TtWiYtUSG50yRFmG2BBwj6FUSBjwZOrRbtuuBmF6ktuhzMRDPbbaOLLfPCKAdTpwZKlO1IloCDtk2VF7j7LewxuCYp-SI7J1kQqq46hjbCTfxtmo3UcJTdIZcbqJCAv3GABRwHS9g8eaZ17"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-0.5">
+<h4 class="font-label-md text-label-md text-on-surface truncate">Bella</h4>
+<span class="font-label-sm text-[10px] px-2 py-0.5 bg-primary-fixed text-on-primary-fixed rounded-full shrink-0">Creche</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Beagle • Maria Costa</p>
+</div>
+<div class="flex flex-col items-end gap-1 shrink-0">
+<span class="material-symbols-outlined text-outline-variant" style="font-size: 20px;">more_vert</span>
+<span class="font-label-sm text-label-sm text-outline">Ausente</span>
+</div>
+</div>
+<!-- Pet Card 3 (Hotel) -->
+<div class="flex items-center gap-md p-sm bg-surface-container-lowest rounded-xl shadow-[0_2px_12px_-4px_rgba(0,101,119,0.08)] hover:shadow-[0_4px_16px_-4px_rgba(0,101,119,0.12)] transition-shadow duration-300 group cursor-pointer border-l-4 border-tertiary-container relative overflow-hidden">
+<div class="w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-surface-container">
+<img alt="French Bulldog" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Portrait of a curious French Bulldog looking slightly up. The image uses a soft focus effect with ambient light creating a cozy and luxurious mood. The setting is bright and minimalistic, reinforcing a clean, high-end UI layout with warm, nurturing undertones suitable for a premium boarding service." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwq9vmr-nemtoJlQsjr4gvNXW5JDqwJaO6uDvRWqBaY0yayx6g0mMCXJeGbYRykRnuLTKJSriPCcvzFZaW9ijF21mhdUgtk5Fa0XIS4UYkhoLg30Og0Gm-77WzAONKhYw1vIEnxwWPc8n5UOw7h4ZAln9e0pyr8B9QnPTSj93J_G40aXJCDebsGTA_7DqIO6YqqyOy6rmDKm8NUoqiFBr357mTMa1l1eUU2yuyxeIgdhC-3kEUYKeaG0yUI8NArSFIMxoLwhkeryE8"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-0.5">
+<h4 class="font-label-md text-label-md text-on-surface truncate">Luna</h4>
+<span class="font-label-sm text-[10px] px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed rounded-full shrink-0">Hotel</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Bulldog Francês • Carlos M.</p>
+</div>
+<div class="flex flex-col items-end gap-1 shrink-0 text-right">
+<span class="font-label-sm text-label-sm text-tertiary-container">Saída amanhã</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant" style="font-size: 10px;">Quarto 03</span>
+</div>
+</div>
+<!-- Pet Card 4 (Banho) -->
+<div class="flex items-center gap-md p-sm bg-surface-container-lowest rounded-xl shadow-[0_2px_12px_-4px_rgba(0,101,119,0.08)] hover:shadow-[0_4px_16px_-4px_rgba(0,101,119,0.12)] transition-shadow duration-300 group cursor-pointer relative overflow-hidden">
+<div class="w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-surface-container">
+<img alt="Poodle" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A meticulously groomed white Poodle sitting elegantly. The photography style is modern and clean, utilizing a very soft, diffused key light to eliminate harsh shadows. The pristine white background merges smoothly with the dog's fur, producing a high-key, sophisticated image perfect for a luxury pet grooming app interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-tZ8Jve5dwoGUWp6CIV7KUOZUJziS5IPJ70OORh7FAIR_wamoJw-ajrbG60nAV-cb9hgGyug-1gMCyHBoWnVuTPu9TjKuCVJxOGtzcZXth-u59CjGxlPM0YpadajopRM5hhkXeIZ9oOctU0fVkxSyvXZvjzEEYrQc5L41CGng64kMAbx9FGBBMSQUUCGqhf5gZh9FbGOxULypwBZ3TsZbJRAKKeIlIPyPjL3AyHIzqpNcO8t3yLB471Go4KSdz9wvck55CZXB-MV5"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-0.5">
+<h4 class="font-label-md text-label-md text-on-surface truncate">Mel</h4>
+<span class="font-label-sm text-[10px] px-2 py-0.5 bg-surface-container-highest text-on-surface-variant rounded-full shrink-0">Banho</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Poodle • Ana Souza</p>
+</div>
+<div class="flex flex-col items-end gap-1 shrink-0">
+<span class="font-label-md text-label-md text-on-surface">14:00</span>
+<span class="font-label-sm text-label-sm text-outline-variant">Aguardando</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Shared Component) - Hidden on md and up -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-surface-container-lowest shadow-[0_-4px_20px_-2px_rgba(0,101,119,0.12)] rounded-t-xl shadow-lg">
+<!-- Dashboard (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container py-1 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm mt-1">Dashboard</span>
+</a>
+<!-- Clients (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container py-1 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm text-label-sm mt-1">Clients</span>
+</a>
+<!-- Pets (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container py-1 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">pets</span>
+<span class="font-label-sm text-label-sm mt-1">Pets</span>
+</a>
+<!-- Packages (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 mt-1 hover:text-primary transition-all active:scale-90 duration-150 ease-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-sm text-label-sm mt-1">Packages</span>
+</a>
+<!-- Agenda (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container py-1 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-sm text-label-sm mt-1">Agenda</span>
+</a>
+</nav>
+</body></html>

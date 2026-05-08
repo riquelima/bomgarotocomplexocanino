@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Novo Cliente - Bom Garoto</title>
+    <script>
+        // Redireciona imediatamente para o contexto de SPA com transição horizontal suave e BottomNavBar!
+        window.location.replace("dashboard.html?tab=novo-cliente");
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Nunito+Sans:wght@400;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#006577",
+                        "primary-container": "#008096",
+                        "primary-fixed-dim": "#72d4ed",
+                        "background": "#f6fafc",
+                        "surface": "#f6fafc",
+                        "surface-container-low": "#f0f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e5e9ea",
+                        "surface-container-highest": "#dfe3e5",
+                        "on-surface": "#181c1e",
+                        "on-surface-variant": "#3e484c",
+                        "outline": "#6e797c",
+                        "outline-variant": "#bdc8cc",
+                        "secondary": "#5d5e61",
+                        "inverse-surface": "#2c3133",
+                        "tertiary": "#874f02",
+                        "tertiary-container": "#a4661e",
+                        "error": "#ba1a1a"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .ambient-shadow { box-shadow: 0 12px 40px rgba(0, 101, 119, 0.05); }
+        .active-plan-card {
+            border-color: #006577 !important;
+            background-color: rgba(0, 101, 119, 0.03) !important;
+            box-shadow: 0 12px 30px rgba(0, 101, 119, 0.08) !important;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-12 font-['Nunito_Sans'] antialiased">
+    
+    <!-- Header Fixo Centralizado -->
+    <header class="grid grid-cols-3 items-center px-6 py-4 w-full sticky top-0 z-50 bg-white/80 dark:bg-inverse-surface/80 backdrop-blur-lg shadow-sm border-b border-surface-container-high h-16">
+        <!-- Esquerda: Voltar -->
+        <div class="flex items-center justify-start">
+            <button onclick="window.location.href='dashboard.html?tab=clientes'" class="text-primary hover:bg-primary/5 p-2 rounded-full transition-all active:scale-90 flex items-center gap-1">
+                <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                <span class="hidden sm:inline text-xs font-bold font-['Inter']">Voltar</span>
+            </button>
+        </div>
+        
+        <!-- Centro: Título -->
+        <div class="flex flex-col items-center justify-center text-center">
+            <h1 class="font-['Plus_Jakarta_Sans'] text-md sm:text-lg text-primary font-extrabold tracking-tight whitespace-nowrap">Novo Cadastro</h1>
+            <p class="text-[9px] text-outline uppercase font-semibold tracking-wider text-center hidden xs:block">Tutor e Pet</p>
+        </div>
+        
+        <!-- Direita: Mascot/Logo -->
+        <div class="flex items-center justify-end">
+            <span class="material-symbols-outlined text-primary text-[24px]" style="font-variation-settings: 'FILL' 1;">pets</span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-2xl mx-auto px-4 pt-6 space-y-6">
+        
+        <!-- Título Principal -->
+        <div class="text-center sm:text-left">
+            <h2 class="font-['Plus_Jakarta_Sans'] text-2xl sm:text-3xl font-extrabold text-primary leading-tight">Cadastrar Novo Cliente</h2>
+            <p class="text-on-surface-variant mt-1.5 text-sm sm:text-base">Preencha as informações do tutor, do pet e selecione o pacote de serviços ideal.</p>
+        </div>
+
+        <form id="new-client-form" onsubmit="handleSubmit(event)" class="space-y-6">
+            
+            <!-- SEÇÃO 1: Dados do Tutor -->
+            <section class="bg-surface-container-lowest rounded-[28px] p-6 sm:p-8 border border-surface-container-high/60 ambient-shadow space-y-4">
+                <h3 class="font-['Plus_Jakarta_Sans'] text-lg font-bold text-primary flex items-center gap-2 mb-2">
+                    <span class="material-symbols-outlined text-[22px]">account_circle</span>
+                    Informações do Tutor (Responsável)
+                </h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-1.5">Nome Completo</label>
+                        <input required type="text" id="tutor-name" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-semibold placeholder:text-outline-variant" placeholder="Ex: João Souza de Oliveira">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-1.5">WhatsApp / Celular</label>
+                        <input required type="tel" id="tutor-phone" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-semibold placeholder:text-outline-variant" placeholder="Ex: (11) 99999-9999">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-1.5">E-mail (Opcional)</label>
+                        <input type="email" id="tutor-email" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-semibold placeholder:text-outline-variant" placeholder="Ex: joao@email.com">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO 2: Dados do Pet -->
+            <section class="bg-surface-container-lowest rounded-[28px] p-6 sm:p-8 border border-surface-container-high/60 ambient-shadow space-y-4">
+                <h3 class="font-['Plus_Jakarta_Sans'] text-lg font-bold text-primary flex items-center gap-2 mb-2">
+                    <span class="material-symbols-outlined text-[22px]">pets</span>
+                    Informações do Pet
+                </h3>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2 sm:col-span-1">
+                        <label class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-1.5">Nome do Pet</label>
+                        <input required type="text" id="pet-name" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-semibold placeholder:text-outline-variant" placeholder="Ex: Mel">
+                    </div>
+                    
+                    <div class="col-span-2 sm:col-span-1">
+                        <label class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-1.5">Espécie</label>
+                        <select required id="pet-type" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-bold">
+                            <option value="DOG">Cão (DOG)</option>
+                            <option value="CAT">Gato (CAT)</option>
+                        </select>
+                    </div>
+
+                    <div class="col-span-2 sm:col-span-1">
+                        <label class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-1.5">Raça</label>
+                        <input required type="text" id="pet-breed" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-semibold placeholder:text-outline-variant" placeholder="Ex: Golden, Shitzu, S/R">
+                    </div>
+
+                    <div class="col-span-2 sm:col-span-1">
+                        <label class="block text-[11px] font-bold text-outline uppercase tracking-wider mb-1.5">Idade aproximada</label>
+                        <input required type="text" id="pet-age" class="w-full bg-surface-container-low text-on-surface rounded-2xl py-3.5 px-4 border-none focus:ring-2 focus:ring-primary/20 transition-all font-semibold placeholder:text-outline-variant" placeholder="Ex: 2 anos, 6 meses">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO 3: Seleção do Plano/Pacote -->
+            <section class="bg-surface-container-lowest rounded-[28px] p-6 sm:p-8 border border-surface-container-high/60 ambient-shadow space-y-4">
+                <h3 class="font-['Plus_Jakarta_Sans'] text-lg font-bold text-primary flex items-center gap-2 mb-1">
+                    <span class="material-symbols-outlined text-[22px]">inventory_2</span>
+                    Pacote de Serviços Associado
+                </h3>
+                <p class="text-xs text-outline font-semibold uppercase tracking-wider mb-4">Escolha a periodicidade ideal para o plano de banho & tosa:</p>
+                
+                <input type="hidden" name="selected-plan" id="selected-plan-input" value="mensal">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Plano Mensal -->
+                    <div id="plan-mensal" onclick="selectPlan('mensal')" class="active-plan-card border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">Plano Básico</span>
+                                <span class="material-symbols-outlined text-primary text-[20px] fill-current">check_circle</span>
+                            </div>
+                            <h4 class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-on-surface mt-4">Mensal</h4>
+                            <p class="text-xs text-outline mt-1 font-semibold">Renovação a cada 30 dias. Inclui 4 banhos e corte de unhas.</p>
+                        </div>
+                        <div class="mt-6 pt-3 border-t border-surface-container-low flex justify-between items-end">
+                            <span class="text-[10px] text-outline font-bold uppercase">Valor Estimado</span>
+                            <div class="text-right">
+                                <span class="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-primary">R$ 180</span>
+                                <span class="text-[10px] text-outline font-bold">/mês</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plano Trimestral -->
+                    <div id="plan-trimestral" onclick="selectPlan('trimestral')" class="border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <span class="bg-emerald-500/10 text-emerald-600 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">10% OFF</span>
+                                <span class="material-symbols-outlined text-outline group-hover:text-primary text-[20px]">radio_button_unchecked</span>
+                            </div>
+                            <h4 class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-on-surface mt-4">Trimestral</h4>
+                            <p class="text-xs text-outline mt-1 font-semibold">Contrato de 3 meses. 12 banhos, 1 tosa higiênica e corte de unhas.</p>
+                        </div>
+                        <div class="mt-6 pt-3 border-t border-surface-container-low flex justify-between items-end">
+                            <span class="text-[10px] text-outline font-bold uppercase">Valor Estimado</span>
+                            <div class="text-right">
+                                <span class="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-primary">R$ 162</span>
+                                <span class="text-[10px] text-outline font-bold">/mês</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plano Semestral -->
+                    <div id="plan-semestral" onclick="selectPlan('semestral')" class="border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <span class="bg-primary-container/10 text-primary-container px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">20% OFF • POPULAR</span>
+                                <span class="material-symbols-outlined text-outline group-hover:text-primary text-[20px]">radio_button_unchecked</span>
+                            </div>
+                            <h4 class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-on-surface mt-4">Semestral</h4>
+                            <p class="text-xs text-outline mt-1 font-semibold">Contrato de 6 meses. 24 banhos, 2 tosas completas e hidratação.</p>
+                        </div>
+                        <div class="mt-6 pt-3 border-t border-surface-container-low flex justify-between items-end">
+                            <span class="text-[10px] text-outline font-bold uppercase">Valor Estimado</span>
+                            <div class="text-right">
+                                <span class="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-primary">R$ 144</span>
+                                <span class="text-[10px] text-outline font-bold">/mês</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plano Anual -->
+                    <div id="plan-anual" onclick="selectPlan('anual')" class="border-2 border-surface-container-high rounded-[24px] p-5 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group hover:border-primary">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <span class="bg-tertiary/10 text-tertiary px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">30% OFF • MELHOR VALOR</span>
+                                <span class="material-symbols-outlined text-outline group-hover:text-primary text-[20px]">radio_button_unchecked</span>
+                            </div>
+                            <h4 class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-on-surface mt-4">Anual</h4>
+                            <p class="text-xs text-outline mt-1 font-semibold">Contrato de 1 ano. 48 banhos, tosas ilimitadas e consulta de rotina inclusa.</p>
+                        </div>
+                        <div class="mt-6 pt-3 border-t border-surface-container-low flex justify-between items-end">
+                            <span class="text-[10px] text-outline font-bold uppercase">Valor Estimado</span>
+                            <div class="text-right">
+                                <span class="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold text-primary">R$ 126</span>
+                                <span class="text-[10px] text-outline font-bold">/mês</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rodapé de Ações do Formulário -->
+            <div class="grid grid-cols-2 gap-4 pt-4">
+                <button type="button" onclick="window.location.href='dashboard.html?tab=clientes'" class="w-full bg-white text-on-surface hover:bg-surface-container-low border border-surface-container-high font-bold py-4 rounded-2xl transition-colors transform active:scale-95 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
+                    Cancelar
+                </button>
+                <button type="submit" class="w-full bg-primary text-white font-bold py-4 rounded-2xl shadow-lg hover:bg-primary-container transition-colors transform active:scale-95 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]">check_circle</span>
+                    Cadastrar Cliente
+                </button>
+            </div>
+            
+        </form>
+    </main>
+
+    <script>
+        // Lógica de Seleção de Planos Interativa
+        function selectPlan(planName) {
+            // Remove as classes de todos
+            const plans = ['mensal', 'trimestral', 'semestral', 'anual'];
+            plans.forEach(p => {
+                const card = document.getElementById(`plan-${p}`);
+                if (card) {
+                    card.classList.remove('active-plan-card');
+                    const icon = card.querySelector('.material-symbols-outlined');
+                    if (icon) {
+                        icon.innerText = 'radio_button_unchecked';
+                        icon.classList.remove('fill-current');
+                        icon.classList.add('text-outline');
+                    }
+                }
+            });
+
+            // Aplica as classes no selecionado
+            const selectedCard = document.getElementById(`plan-${planName}`);
+            if (selectedCard) {
+                selectedCard.classList.add('active-plan-card');
+                const icon = selectedCard.querySelector('.material-symbols-outlined');
+                if (icon) {
+                    icon.innerText = 'check_circle';
+                    icon.classList.remove('text-outline');
+                    icon.classList.add('fill-current');
+                }
+                
+                // Atualiza o input oculto
+                document.getElementById('selected-plan-input').value = planName;
+            }
+
+            // Haptic Feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(12);
+            }
+        }
+
+        // Submissão do Formulário salvando na URL e retornando
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const tutorName = document.getElementById('tutor-name').value;
+            const tutorPhone = document.getElementById('tutor-phone').value;
+            const petName = document.getElementById('pet-name').value;
+            const petType = document.getElementById('pet-type').value;
+            const plan = document.getElementById('selected-plan-input').value;
+
+            // Feedback Tátil
+            if (navigator.vibrate) {
+                navigator.vibrate([30, 80, 30]);
+            }
+
+            // Simular gravação bem sucedida e retornar para a aba clientes
+            alert("Cliente cadastrado com sucesso no plano " + plan.toUpperCase() + "!");
+            window.location.href = "dashboard.html?tab=clientes";
+        }
+    </script>
+</body>
+</html>

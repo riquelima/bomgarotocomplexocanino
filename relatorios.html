@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bom Garoto - Relatórios</title>
+<script>
+    // Redireciona imediatamente para o contexto de SPA horizontal com transições e BottomNavBar!
+    window.location.replace("dashboard.html?tab=relatorios");
+</script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Nunito+Sans:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#dfdfe2",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb870",
+                        "surface-bright": "#f6fafc",
+                        "on-surface-variant": "#3e484c",
+                        "outline-variant": "#bdc8cc",
+                        "on-secondary-fixed-variant": "#45474a",
+                        "on-secondary-fixed": "#1a1c1e",
+                        "primary-fixed-dim": "#72d4ed",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#004e5d",
+                        "primary-fixed": "#adecff",
+                        "surface-container": "#ebeef0",
+                        "on-tertiary-fixed": "#2c1600",
+                        "outline": "#6e797c",
+                        "background": "#f6fafc",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffdcbe",
+                        "on-secondary-container": "#616265",
+                        "inverse-surface": "#2c3133",
+                        "error": "#ba1a1a",
+                        "primary-container": "#008096",
+                        "on-background": "#181c1e",
+                        "on-surface": "#181c1e",
+                        "primary": "#006577",
+                        "on-tertiary-fixed-variant": "#693c00",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#fffbff",
+                        "secondary": "#5d5e61",
+                        "surface-dim": "#d7dbdc",
+                        "inverse-on-surface": "#edf1f3",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#f9fdff",
+                        "inverse-primary": "#72d4ed",
+                        "surface-container-low": "#f0f4f6",
+                        "on-primary-fixed": "#001f26",
+                        "surface-container-high": "#e5e9ea",
+                        "tertiary": "#874f02",
+                        "surface": "#f6fafc",
+                        "surface-container-highest": "#dfe3e5",
+                        "secondary-fixed": "#e2e2e5",
+                        "secondary-fixed-dim": "#c6c6c9",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#a4661e",
+                        "surface-variant": "#dfe3e5",
+                        "surface-tint": "#00687a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "card": "16px"
+                    },
+                    "spacing": {
+                        "margin": "32px",
+                        "base": "8px",
+                        "sm": "12px",
+                        "xl": "64px",
+                        "lg": "48px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "md": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Nunito Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Nunito Sans"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Nunito Sans"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-xl": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    },
+                    "boxShadow": {
+                        "ambient": "-2px -2px 6px rgba(255, 255, 255, 0.8), 4px 4px 10px rgba(0, 101, 119, 0.08)",
+                        "ambient-pressed": "inset 2px 2px 5px rgba(0, 101, 119, 0.05), inset -2px -2px 5px rgba(255, 255, 255, 0.9)",
+                        "inset-soft": "inset 2px 2px 5px rgba(0, 101, 119, 0.05), inset -2px -2px 5px rgba(255, 255, 255, 0.9)"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #f6fafc;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md text-on-surface min-h-screen pb-24 selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="shadow-[0_4px_20px_-2px_rgba(0,101,119,0.08)] bg-surface dark:bg-surface-container-high shadow-sm dark:shadow-none docked full-width top-0 sticky z-40">
+<div class="flex justify-between items-center w-full px-margin h-16 max-w-7xl mx-auto">
+<button class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/10 rounded-full transition-colors p-2 flex items-center justify-center active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">search</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Bom Garoto</h1>
+<button class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/10 rounded-full transition-colors p-2 flex items-center justify-center active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-7xl mx-auto px-4 sm:px-margin py-lg space-y-lg">
+<!-- Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Relatórios</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Visão geral do seu negócio.</p>
+</div>
+<button class="bg-surface-container-lowest shadow-ambient rounded-full px-4 py-2 flex items-center gap-2 text-primary font-label-md text-label-md active:shadow-ambient-pressed transition-all">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+                Este Mês
+            </button>
+</div>
+<!-- Top Summary Cards (Bento style) -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-md">
+<!-- Total Revenue (Hero Card) -->
+<div class="col-span-2 bg-surface-container-lowest rounded-card shadow-ambient p-md flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-4">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-full">account_balance_wallet</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Receita Total</span>
+</div>
+<div class="font-headline-xl text-headline-xl text-primary mb-1">R$ 12.450,00</div>
+<div class="flex items-center gap-1 text-surface-tint font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                        +15% vs mês passado
+                    </div>
+</div>
+</div>
+<!-- Clients Card -->
+<div class="col-span-1 bg-surface-container-lowest rounded-card shadow-ambient p-md flex flex-col justify-center">
+<div class="flex items-center gap-2 text-on-surface-variant mb-2">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-full">group</span>
+<span class="font-label-md text-label-md">Clientes</span>
+</div>
+<div class="font-headline-lg text-headline-lg text-on-surface">142</div>
+</div>
+<!-- Pets Card -->
+<div class="col-span-1 bg-surface-container-lowest rounded-card shadow-ambient p-md flex flex-col justify-center">
+<div class="flex items-center gap-2 text-on-surface-variant mb-2">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-full">pets</span>
+<span class="font-label-md text-label-md">Pets</span>
+</div>
+<div class="font-headline-lg text-headline-lg text-on-surface">215</div>
+</div>
+</div>
+<!-- Charts Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Today's Earnings (Bar Chart Mock) -->
+<div class="bg-surface-container-lowest rounded-card shadow-ambient p-md">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Ganhos Hoje</h3>
+<span class="material-symbols-outlined text-outline-variant">more_horiz</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface mb-6">R$ 450,00</div>
+<!-- CSS Bar Chart Mockup -->
+<div class="flex items-end justify-between h-32 gap-2 mt-auto">
+<div class="w-full bg-surface-variant rounded-t-sm h-[30%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">8h</div>
+</div>
+<div class="w-full bg-surface-variant rounded-t-sm h-[50%] relative group"></div>
+<div class="w-full bg-primary rounded-t-sm h-[90%] relative shadow-[0_0_10px_rgba(0,101,119,0.3)]"></div>
+<div class="w-full bg-surface-variant rounded-t-sm h-[40%] relative group"></div>
+<div class="w-full bg-surface-variant rounded-t-sm h-[20%] relative group"></div>
+<div class="w-full bg-surface-variant rounded-t-sm h-[60%] relative group"></div>
+</div>
+<div class="flex justify-between mt-2 text-xs text-outline-variant">
+<span>8h</span>
+<span>10h</span>
+<span>12h</span>
+<span>14h</span>
+<span>16h</span>
+<span>18h</span>
+</div>
+</div>
+<!-- Weekly Earnings (Line Chart Mock) -->
+<div class="md:col-span-2 bg-surface-container-lowest rounded-card shadow-ambient p-md">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Ganhos na Semana</h3>
+<div class="bg-surface-container rounded-full px-3 py-1 text-xs font-medium text-on-surface-variant">Semana Atual</div>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface mb-6">R$ 3.200,00</div>
+<!-- CSS Line Chart Mockup (Visual approximation using SVG) -->
+<div class="h-40 w-full relative mt-auto">
+<svg class="w-full h-full preserve-aspect-ratio-none" viewbox="0 0 400 100">
+<!-- Grid lines -->
+<line stroke="#dfe3e5" stroke-dasharray="4" stroke-width="1" x1="0" x2="400" y1="20" y2="20"></line>
+<line stroke="#dfe3e5" stroke-dasharray="4" stroke-width="1" x1="0" x2="400" y1="50" y2="50"></line>
+<line stroke="#dfe3e5" stroke-dasharray="4" stroke-width="1" x1="0" x2="400" y1="80" y2="80"></line>
+<!-- Gradient Fill -->
+<defs>
+<lineargradient id="lineGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#006577" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#006577" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,80 L50,60 L100,70 L150,30 L200,40 L250,20 L300,50 L350,10 L400,30 L400,100 L0,100 Z" fill="url(#lineGradient)"></path>
+<!-- Line -->
+<path d="M0,80 L50,60 L100,70 L150,30 L200,40 L250,20 L300,50 L350,10 L400,30" fill="none" stroke="#006577" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+<!-- Data Points -->
+<circle cx="250" cy="20" fill="#ffffff" r="4" stroke="#006577" stroke-width="2"></circle>
+<circle cx="350" cy="10" fill="#ffffff" r="4" stroke="#006577" stroke-width="2"></circle>
+</svg>
+</div>
+<div class="flex justify-between mt-2 text-xs text-outline-variant">
+<span>Seg</span>
+<span>Ter</span>
+<span>Qua</span>
+<span>Qui</span>
+<span>Sex</span>
+<span>Sáb</span>
+<span>Dom</span>
+</div>
+</div>
+<!-- Annual Earnings (Donut Chart Mock) -->
+<div class="md:col-span-3 bg-surface-container-lowest rounded-card shadow-ambient p-md flex flex-col md:flex-row items-center gap-8">
+<div class="flex-1">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-2">Ganhos no Ano por Serviço</h3>
+<div class="font-headline-lg text-headline-lg text-on-surface mb-6">R$ 145.800,00</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="font-body-sm text-body-sm text-on-surface">Banho &amp; Tosa</span>
+</div>
+<span class="font-label-md text-label-md">65%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-tertiary-fixed-dim"></div>
+<span class="font-body-sm text-body-sm text-on-surface">Creche</span>
+</div>
+<span class="font-label-md text-label-md">25%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-surface-tint"></div>
+<span class="font-body-sm text-body-sm text-on-surface">Veterinário</span>
+</div>
+<span class="font-label-md text-label-md">10%</span>
+</div>
+</div>
+</div>
+<div class="relative w-48 h-48 flex-shrink-0">
+<!-- CSS Donut Chart approximation -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="transparent" r="15.91549430918954" stroke="#f0f4f6" stroke-width="4"></circle>
+<!-- Banho & Tosa (65%) -->
+<circle cx="18" cy="18" fill="transparent" r="15.91549430918954" stroke="#006577" stroke-dasharray="65 35" stroke-dashoffset="0" stroke-width="4"></circle>
+<!-- Creche (25%) -->
+<circle cx="18" cy="18" fill="transparent" r="15.91549430918954" stroke="#ffb870" stroke-dasharray="25 75" stroke-dashoffset="-65" stroke-width="4"></circle>
+<!-- Vet (10%) -->
+<circle cx="18" cy="18" fill="transparent" r="15.91549430918954" stroke="#00687a" stroke-dasharray="10 90" stroke-dashoffset="-90" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center flex-col">
+<span class="font-headline-md text-headline-md text-on-surface">100%</span>
+<span class="font-label-sm text-label-sm text-outline-variant">Total</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden shadow-[0_-4px_20px_-2px_rgba(0,101,119,0.12)] bg-surface-container-lowest dark:bg-inverse-surface shadow-lg dark:shadow-none docked full-width bottom-0 rounded-t-xl fixed left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2">
+<button class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 mt-1 active:scale-90 duration-150 ease-out">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-sm text-label-sm mt-1">Dashboard</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">group</span>
+<span class="font-label-sm text-label-sm mt-1">Clients</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">pets</span>
+<span class="font-label-sm text-label-sm mt-1">Pets</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">inventory_2</span>
+<span class="font-label-sm text-label-sm mt-1">Packages</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">calendar_today</span>
+<span class="font-label-sm text-label-sm mt-1">Agenda</span>
+</button>
+</nav>
+</body></html>

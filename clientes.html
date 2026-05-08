@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bom Garoto - Clientes</title>
+<script>
+    // [DELEGATE_RESILIENCE]: Redireciona imediatamente para o contexto de SPA com transição horizontal suave e BottomNavBar!
+    window.location.replace("dashboard.html?tab=clientes");
+</script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Nunito+Sans:wght@400;600&amp;family=Inter:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "secondary-container": "#dfdfe2",
+                "on-surface-variant": "#3e484c",
+                "surface-container-highest": "#dfe3e5",
+                "on-primary-fixed": "#001f26",
+                "secondary": "#5d5e61",
+                "surface-container-lowest": "#ffffff",
+                "on-error": "#ffffff",
+                "inverse-on-surface": "#edf1f3",
+                "secondary-fixed-dim": "#c6c6c9",
+                "primary-fixed-dim": "#72d4ed",
+                "surface-container": "#ebeef0",
+                "surface-bright": "#f6fafc",
+                "on-primary": "#ffffff",
+                "error-container": "#ffdad6",
+                "outline": "#6e797c",
+                "tertiary-fixed-dim": "#ffb870",
+                "inverse-surface": "#2c3133",
+                "on-tertiary-fixed": "#2c1600",
+                "tertiary": "#874f02",
+                "primary": "#006577",
+                "on-secondary-fixed-variant": "#45474a",
+                "surface-container-low": "#f0f4f6",
+                "tertiary-container": "#a4661e",
+                "on-secondary-fixed": "#1a1c1e",
+                "secondary-fixed": "#e2e2e5",
+                "outline-variant": "#bdc8cc",
+                "on-secondary": "#ffffff",
+                "surface-dim": "#d7dbdc",
+                "on-tertiary-container": "#fffbff",
+                "tertiary-fixed": "#ffdcbe",
+                "on-surface": "#181c1e",
+                "on-tertiary-fixed-variant": "#693c00",
+                "on-primary-fixed-variant": "#004e5d",
+                "surface": "#f6fafc",
+                "primary-container": "#008096",
+                "background": "#f6fafc",
+                "on-error-container": "#93000a",
+                "surface-variant": "#dfe3e5",
+                "on-tertiary": "#ffffff",
+                "on-primary-container": "#f9fdff",
+                "on-secondary-container": "#616265",
+                "error": "#ba1a1a",
+                "surface-tint": "#00687a",
+                "primary-fixed": "#adecff",
+                "inverse-primary": "#72d4ed",
+                "surface-container-high": "#e5e9ea",
+                "on-background": "#181c1e"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "base": "8px",
+                "xs": "4px",
+                "gutter": "24px",
+                "md": "24px",
+                "margin": "32px",
+                "lg": "48px",
+                "xl": "64px",
+                "sm": "12px"
+        },
+        "fontFamily": {
+                "label-sm": [
+                        "Inter"
+                ],
+                "body-lg": [
+                        "Nunito Sans"
+                ],
+                "label-md": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-xl": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-md": [
+                        "Nunito Sans"
+                ],
+                "headline-md": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-sm": [
+                        "Nunito Sans"
+                ]
+        },
+        "fontSize": {
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "1",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "1",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-xl": [
+                        "40px",
+                        {
+                                "lineHeight": "1.2",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "1.3",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-sm": [
+                        "14px",
+                        {
+                                "lineHeight": "1.5",
+                                "fontWeight": "400"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .ambient-shadow {
+            box-shadow: 0 4px 20px rgba(0, 101, 119, 0.05);
+        }
+        .inset-shadow {
+            box-shadow: inset 0 2px 4px rgba(0, 101, 119, 0.02);
+        }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+        /* Transições de Deslizar (Slide) de Páginas */
+        @keyframes slideOutLeft {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(-100%); opacity: 0; }
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .slide-out-left {
+            animation: slideOutLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .slide-in-right {
+            animation: slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .slide-out-right {
+            animation: slideOutRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .slide-in-left {
+            animation: slideInLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .transition-wrapper {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32 md:pb-6">
+<div id="app-wrapper" class="transition-wrapper min-h-screen">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-md py-sm w-full sticky top-0 z-50 bg-background shadow-sm">
+<div class="flex items-center gap-sm">
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pets</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary font-bold tracking-tight">Bom Garoto</h1>
+</div>
+<div class="flex items-center gap-sm">
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</header>
+<main class="max-w-4xl mx-auto px-4 md:px-margin pt-6">
+<!-- Search & Filter Bar -->
+<div class="flex gap-sm mb-6">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-lowest text-on-surface rounded-2xl py-4 pl-12 pr-4 inset-shadow focus:outline-none focus:ring-2 focus:ring-primary/20 border border-surface-container-high" placeholder="Search clients..." type="text"/>
+</div>
+<button class="bg-surface-container-lowest p-4 rounded-2xl ambient-shadow text-primary hover:bg-surface-container-low transition-colors active:scale-95 border border-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<!-- Client List (Bento-style Cards) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Client Card 1 -->
+<div class="bg-surface-container-lowest rounded-[24px] p-md ambient-shadow flex flex-col gap-sm relative overflow-hidden group border border-surface-container-high/50">
+<div class="flex items-start gap-md">
+<img alt="Client Avatar" class="w-[72px] h-[72px] rounded-full object-cover shadow-sm" data-alt="A professional headshot of a smiling woman with dark hair in a well-lit modern office environment. The image is bright and airy, reflecting a welcoming and reliable brand personality. The overall tone is warm and professional, suitable for a premium service profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaA9qEF7lAYBx2I80JjoMx-UgXHeKOg0-WLOSBqzkyWyYao8w-GSyF14HH0xxuHllQMq4DlDQH0UWAGJomoRIC6pES_EUihe3DWEY3TuCbj1fXPXuJ05XkEhhDI-TbGBsG7EmX-CLbMKcYknUzktimDPyc9-QKgU7axd0AHndiu0Gce8l8v8dlk0DJRK9w0gp9CdpDhqarFrxE4xylQYM6dQ17kqwaE8dFon0S6ehSpe7vmwruuNqKERJe0yIl9bXWYUbCcrs4DJxM"/>
+<div class="flex-1 mt-1">
+<h2 class="font-headline-md text-[22px] font-semibold text-on-surface leading-tight">Ana Silva</h2>
+<div class="flex items-center text-secondary font-body-sm mt-1">
+<span class="material-symbols-outlined text-[16px] mr-1.5 opacity-70">call</span>
+                            (11) 98765-4321
+                        </div>
+</div>
+<button class="text-outline hover:text-primary transition-colors p-2 -mt-2 -mr-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="bg-surface-container-low/50 rounded-2xl p-4 mt-2">
+<h3 class="font-label-sm text-[11px] text-outline mb-2.5 uppercase tracking-[0.1em] font-semibold">Pets</h3>
+<div class="flex flex-wrap gap-2.5">
+<div class="flex items-center gap-1.5 bg-surface-container-lowest px-3.5 py-1.5 rounded-full text-primary font-label-md text-sm shadow-sm border border-primary/10">
+<span class="font-semibold tracking-wide text-xs">DOG</span>
+<span class="text-primary-container">Bidu</span>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-lowest px-3.5 py-1.5 rounded-full text-tertiary-container font-label-md text-sm shadow-sm border border-tertiary/10">
+<span class="font-semibold tracking-wide text-xs">CAT</span>
+<span class="text-tertiary">Mia</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Client Card 2 -->
+<div class="bg-surface-container-lowest rounded-[24px] p-md ambient-shadow flex flex-col gap-sm relative overflow-hidden group border border-surface-container-high/50">
+<div class="flex items-start gap-md">
+<img alt="Client Avatar" class="w-[72px] h-[72px] rounded-full object-cover shadow-sm" data-alt="A portrait of a confident young man in casual attire, smiling softly against a clean, light background. The lighting is soft and diffused, creating a friendly and approachable feel consistent with a modern soft UI aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8ohxAiAZDu29xNgassy2rjBdRMfFQB92UXFF38U7BeviAokg7aY2RMZOkEZKqw5iHVqBnm59L_12860sRi-B3IHyam61RwMd3viTFDnKvlJScVtaYlQ20PIe8H-mmU4lIREKKH0ExWB1AzGHWToTOoevqHa3wBhV_0FcjyH-MqXFQzvf5gxg3mGC8B4FgnYxeIfPipmPfnl2pOIh4TqGPHg2uJoI3ikEdfu7kE1MU5CiYHUUZH8DNEoCNQdFgYmWQpRKkDaQ6gRsH"/>
+<div class="flex-1 mt-1">
+<h2 class="font-headline-md text-[22px] font-semibold text-on-surface leading-tight">Carlos Eduardo</h2>
+<div class="flex items-center text-secondary font-body-sm mt-1">
+<span class="material-symbols-outlined text-[16px] mr-1.5 opacity-70">call</span>
+                            (11) 91234-5678
+                        </div>
+</div>
+<button class="text-outline hover:text-primary transition-colors p-2 -mt-2 -mr-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="bg-surface-container-low/50 rounded-2xl p-4 mt-2">
+<h3 class="font-label-sm text-[11px] text-outline mb-2.5 uppercase tracking-[0.1em] font-semibold">Pets</h3>
+<div class="flex flex-wrap gap-2.5">
+<div class="flex items-center gap-1.5 bg-surface-container-lowest px-3.5 py-1.5 rounded-full text-primary font-label-md text-sm shadow-sm border border-primary/10">
+<span class="material-symbols-outlined text-[16px]">cruelty_free</span>
+<span class="text-primary-container">Flocos</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div> <!-- Fechamento do app-wrapper antes da navbar flutuante -->
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 md:bottom-8 md:right-8 w-16 h-16 bg-[#006577] text-on-primary rounded-full flex items-center justify-center shadow-lg hover:opacity-90 hover:scale-105 active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-6 left-6 right-6 z-50 flex justify-around items-center px-4 py-3 bg-white/80 dark:bg-inverse-surface/85 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-[0_12px_40px_rgba(0,101,119,0.18)] rounded-3xl animate-fade-in-up" style="animation-delay: 0.7s;">
+<button onclick="navigateWithSlide('dashboard.html', 'right')" class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1.5 px-3 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform active:scale-90">
+<span class="material-symbols-outlined text-[22px]">dashboard</span>
+<span class="font-label-sm text-[11px] mt-0.5">Dash</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary dark:bg-primary-fixed-dim text-white dark:text-on-primary-fixed rounded-full px-5 py-2 scale-100 shadow-md transform transition-all duration-300 hover:scale-105 active:scale-95">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-label-sm text-[11px] font-bold mt-0.5">Clientes</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1.5 px-3 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform active:scale-90">
+<span class="material-symbols-outlined text-[22px]">pets</span>
+<span class="font-label-sm text-[11px] mt-0.5">Pets</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1.5 px-3 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform active:scale-90">
+<span class="material-symbols-outlined text-[22px]">inventory_2</span>
+<span class="font-label-sm text-[11px] mt-0.5">Pacotes</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container dark:text-secondary-fixed-dim py-1.5 px-3 hover:text-primary dark:hover:text-primary-fixed-dim transition-all duration-300 transform active:scale-90">
+<span class="material-symbols-outlined text-[22px]">calendar_today</span>
+<span class="font-label-sm text-[11px] mt-0.5">Agenda</span>
+</button>
+</nav>
+
+<!-- Lógica de Transição Suave de Páginas -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const transition = params.get('transition');
+        const wrapper = document.getElementById('app-wrapper');
+        
+        if (wrapper && transition) {
+            if (transition === 'slide-in-right') {
+                wrapper.classList.add('slide-in-right');
+            } else if (transition === 'slide-in-left') {
+                wrapper.classList.add('slide-in-left');
+            }
+        }
+    });
+
+    function navigateWithSlide(targetUrl, direction = 'left') {
+        const wrapper = document.getElementById('app-wrapper');
+        if (wrapper) {
+            if (direction === 'left') {
+                wrapper.classList.add('slide-out-left');
+            } else {
+                wrapper.classList.add('slide-out-right');
+            }
+            setTimeout(() => {
+                window.location.href = `${targetUrl}?transition=slide-in-${direction === 'left' ? 'right' : 'left'}`;
+            }, 450);
+        } else {
+            window.location.href = targetUrl;
+        }
+    }
+</script>
+</body></html>

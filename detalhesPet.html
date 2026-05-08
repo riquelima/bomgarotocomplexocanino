@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detalhes do Pet</title>
+<script>
+    // Redireciona imediatamente para o contexto de SPA horizontal com transições e BottomNavBar!
+    window.location.replace("dashboard.html?tab=detalhes-pet");
+</script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Nunito+Sans:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ffb870",
+                        "surface-container": "#ebeef0",
+                        "background": "#f6fafc",
+                        "on-secondary-container": "#616265",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#2c1600",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#1a1c1e",
+                        "on-secondary-fixed-variant": "#45474a",
+                        "error-container": "#ffdad6",
+                        "primary": "#006577",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#edf1f3",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e5e9ea",
+                        "on-surface-variant": "#3e484c",
+                        "on-tertiary-container": "#fffbff",
+                        "on-surface": "#181c1e",
+                        "surface-container-low": "#f0f4f6",
+                        "secondary-fixed-dim": "#c6c6c9",
+                        "surface-container-highest": "#dfe3e5",
+                        "on-tertiary-fixed-variant": "#693c00",
+                        "outline-variant": "#bdc8cc",
+                        "surface-tint": "#00687a",
+                        "tertiary": "#874f02",
+                        "secondary-fixed": "#e2e2e5",
+                        "on-primary-fixed-variant": "#004e5d",
+                        "surface": "#f6fafc",
+                        "surface-dim": "#d7dbdc",
+                        "surface-bright": "#f6fafc",
+                        "inverse-primary": "#72d4ed",
+                        "secondary-container": "#dfdfe2",
+                        "error": "#ba1a1a",
+                        "outline": "#6e797c",
+                        "primary-fixed-dim": "#72d4ed",
+                        "on-primary-fixed": "#001f26",
+                        "on-background": "#181c1e",
+                        "on-primary-container": "#f9fdff",
+                        "primary-container": "#008096",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#adecff",
+                        "tertiary-fixed": "#ffdcbe",
+                        "inverse-surface": "#2c3133",
+                        "secondary": "#5d5e61",
+                        "tertiary-container": "#a4661e",
+                        "surface-variant": "#dfe3e5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "md": "24px",
+                        "base": "8px",
+                        "lg": "48px",
+                        "xs": "4px",
+                        "xl": "64px",
+                        "margin": "32px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Nunito Sans"],
+                        "body-md": ["Nunito Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Nunito Sans"],
+                        "label-sm": ["Inter"],
+                        "headline-xl": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "1", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "headline-xl": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    },
+                    "boxShadow": {
+                        "ambient": "0 8px 30px rgba(0, 101, 119, 0.05), 0 2px 8px rgba(0, 0, 0, 0.02)",
+                        "inset-soft": "inset 0 2px 4px rgba(0, 0, 0, 0.04)"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar (Modified for Sub-page context per UX rules) -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-[0_4px_20px_-2px_rgba(0,101,119,0.1)] flex justify-between items-center px-md h-16">
+<button class="text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center opacity-80 duration-200">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Detalhes do Pet</h1>
+<button class="text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center opacity-80 duration-200">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</header>
+<main class="pt-[88px] pb-lg px-md max-w-5xl mx-auto flex flex-col gap-md">
+<!-- Header Section: Pet Profile -->
+<section class="bg-surface rounded-3xl p-md shadow-ambient flex flex-col items-center text-center relative overflow-hidden">
+<!-- Decorative soft background element -->
+<div class="absolute -top-20 -right-20 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative w-32 h-32 mb-sm">
+<img class="w-full h-full object-cover rounded-full border-4 border-surface shadow-md relative z-10" data-alt="A close-up, high-quality portrait of a friendly Shiba Inu dog looking directly at the camera. The dog has bright, engaging eyes and a happy, alert expression typical of the breed. The lighting is soft, diffused, and natural, perfectly highlighting the warm tan and white textures of its fur. The background is a clean, out-of-focus light studio backdrop, harmonizing with a modern, high-end light-mode application aesthetic. The overall mood conveys warmth, reliability, and premium pet care." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGDLBjmglU_qBfIBbejTpDC0zzN4msNLySgBADEsowVXR_FMEWY4GhJOFMWfm4ENIaucg13-53IyIf9H0qCNjyEbnM402vZmjBpMnpu4UxZRuqvIsH5kwlSfXaWm9CaVfLFCkOMiU3m-VQPCC3YLicMnB4Mw3dexqaJ-b_cP5zrRe-7l1466CKvFq0lOk6YY9Q5vVJlFstZFxAvdnB0jWrLRFWJfqcEVk05WR9N_0yDj9kszOQLEPNNAvfgMWPaUVxf8nKHuRG04FT"/>
+<!-- Status Badge -->
+<div class="absolute bottom-1 right-1 w-6 h-6 bg-surface rounded-full flex items-center justify-center z-20 shadow-sm">
+<div class="w-4 h-4 bg-primary rounded-full"></div>
+</div>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs relative z-10">Kira</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant flex items-center gap-xs relative z-10">
+<span class="material-symbols-outlined text-[18px]">pets</span>
+                Shiba Inu
+            </p>
+</section>
+<!-- Bento Grid Layout for Details -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Tutor Section -->
+<section class="bg-surface rounded-3xl p-md shadow-ambient flex flex-col gap-sm">
+<h3 class="font-label-md text-label-md text-primary uppercase tracking-wider mb-xs flex items-center gap-xs">
+<span class="material-symbols-outlined icon-fill text-[18px]">person</span>
+                    Tutor Responsável
+                </h3>
+<div class="flex items-center gap-sm p-sm rounded-xl bg-surface-container-low transition-colors hover:bg-surface-container">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined icon-fill">badge</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Nome Completo</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Lucas Mendes</p>
+</div>
+</div>
+<div class="flex items-center gap-sm p-sm rounded-xl bg-surface-container-low transition-colors hover:bg-surface-container">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined icon-fill">phone_iphone</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">WhatsApp</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">(11) 98765-4321</p>
+</div>
+<button class="ml-auto text-primary p-2 hover:bg-primary/10 rounded-full transition-colors">
+<span class="material-symbols-outlined">chat</span>
+</button>
+</div>
+<div class="flex items-center gap-sm p-sm rounded-xl bg-surface-container-low transition-colors hover:bg-surface-container">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined icon-fill">location_on</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Endereço</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Rua das Flores, 123</p>
+</div>
+</div>
+<div class="flex items-center gap-sm p-sm rounded-xl bg-surface-container-low transition-colors hover:bg-surface-container">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined icon-fill">mail</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">E-mail</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">lucas.mendes@email.com</p>
+</div>
+</div>
+</section>
+<!-- Right Column Flex Container -->
+<div class="flex flex-col gap-md">
+<!-- Health Section -->
+<section class="bg-surface rounded-3xl p-md shadow-ambient">
+<h3 class="font-label-md text-label-md text-primary uppercase tracking-wider mb-sm flex items-center gap-xs">
+<span class="material-symbols-outlined icon-fill text-[18px]">favorite</span>
+                        Saúde &amp; Prevenção
+                    </h3>
+<div class="grid grid-cols-2 gap-sm">
+<!-- Vaccine Well -->
+<div class="bg-surface-container-lowest rounded-2xl p-sm shadow-inset-soft border border-outline-variant/30 flex flex-col items-center text-center justify-center gap-xs">
+<div class="w-12 h-12 rounded-full bg-tertiary-container/10 text-tertiary-container flex items-center justify-center mb-xs">
+<span class="material-symbols-outlined text-[24px]">vaccines</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Última Vacina</p>
+<p class="font-label-md text-label-md text-on-surface">15 Out 2023</p>
+</div>
+<!-- Dewormer Well -->
+<div class="bg-surface-container-lowest rounded-2xl p-sm shadow-inset-soft border border-outline-variant/30 flex flex-col items-center text-center justify-center gap-xs">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 text-primary-container flex items-center justify-center mb-xs">
+<span class="material-symbols-outlined text-[24px]">medication</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Último Vermífugo</p>
+<p class="font-label-md text-label-md text-on-surface">02 Nov 2023</p>
+</div>
+</div>
+</section>
+<!-- Plan & Services Section -->
+<section class="bg-surface rounded-3xl p-md shadow-ambient flex-1">
+<h3 class="font-label-md text-label-md text-primary uppercase tracking-wider mb-sm flex items-center gap-xs">
+<span class="material-symbols-outlined icon-fill text-[18px]">workspace_premium</span>
+                        Plano &amp; Serviços
+                    </h3>
+<div class="flex flex-col gap-sm">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-xs">Assinatura Vigente</p>
+<div class="inline-flex items-center gap-xs bg-primary-container text-on-primary-container px-4 py-2 rounded-full font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-[18px]">star</span>
+                                Plano Anual Premium
+                            </div>
+</div>
+<div class="h-px w-full bg-surface-container-highest my-xs"></div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-xs">Pacotes Ativos</p>
+<div class="flex flex-wrap gap-xs">
+<div class="inline-flex items-center gap-xs bg-surface-container-highest text-on-surface px-3 py-1.5 rounded-lg font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">park</span>
+                                    Creche
+                                </div>
+<div class="inline-flex items-center gap-xs bg-surface-container-highest text-on-surface px-3 py-1.5 rounded-lg font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">shower</span>
+                                    Banho Semanal
+                                </div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>

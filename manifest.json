@@ -1,0 +1,24 @@
+{
+  "name": "Bom Garoto Complexo Canino",
+  "short_name": "Bom Garoto",
+  "description": "O sistema premium de agendamento, creche e hotelaria canina do Bom Garoto!",
+  "start_url": "/login.html",
+  "display": "standalone",
+  "background_color": "#f6fafc",
+  "theme_color": "#006577",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "logoTransparente.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logoTransparente.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

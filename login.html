@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bom Garoto Complexo Canino - Login</title>
+
+<!-- Favicon Clássico e Moderno -->
+<link rel="icon" type="image/png" href="logoTransparente.png" />
+<link rel="shortcut icon" href="logoTransparente.png" type="image/png" />
+
+<!-- Progressive Web App (PWA) Manifest -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#006577" />
+
+<!-- Suporte de Instalação e Meta Tags para iOS (iPhone/iPad) -->
+<link rel="apple-touch-icon" href="logoTransparente.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Bom Garoto" />
+
+<!-- Metatags Open Graph (Pré-visualização de Link no WhatsApp, Instagram, Telegram) -->
+<meta property="og:title" content="Bom Garoto - Complexo Canino" />
+<meta property="og:description" content="O sistema premium de agendamento, creche e hotelaria canina do Bom Garoto!" />
+<meta property="og:image" content="logoTransparente.png" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://bomgaroto.vercel.app/" />
+
+<!-- Metatags Twitter Card -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Bom Garoto - Complexo Canino" />
+<meta name="twitter:description" content="O sistema premium de agendamento, creche e hotelaria canina do Bom Garoto!" />
+<meta name="twitter:image" content="logoTransparente.png" />
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Quicksand:wght@500;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-variant": "#dfe3e5",
+                      "surface-container-highest": "#dfe3e5",
+                      "inverse-surface": "#2c3133",
+                      "tertiary-container": "#a4661e",
+                      "surface-dim": "#d7dbdc",
+                      "surface-container-high": "#e5e9ea",
+                      "on-primary-fixed": "#001f26",
+                      "tertiary-fixed-dim": "#ffb870",
+                      "on-tertiary": "#ffffff",
+                      "outline-variant": "#bdc8cc",
+                      "secondary-fixed-dim": "#c6c6c9",
+                      "inverse-primary": "#72d4ed",
+                      "background": "#f6fafc",
+                      "on-tertiary-fixed": "#2c1600",
+                      "on-secondary-fixed": "#1a1c1e",
+                      "error": "#ba1a1a",
+                      "surface-container": "#ebeef0",
+                      "tertiary": "#874f02",
+                      "secondary-fixed": "#e2e2e5",
+                      "on-secondary-container": "#616265",
+                      "primary-fixed": "#adecff",
+                      "on-tertiary-fixed-variant": "#693c00",
+                      "on-secondary-fixed-variant": "#45474a",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#dfdfe2",
+                      "error-container": "#ffdad6",
+                      "primary-fixed-dim": "#72d4ed",
+                      "surface-container-low": "#f0f4f6",
+                      "primary-container": "#008096",
+                      "secondary": "#5d5e61",
+                      "on-primary-fixed-variant": "#004e5d",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#f6fafc",
+                      "on-primary-container": "#f9fdff",
+                      "surface": "#f6fafc",
+                      "on-surface-variant": "#3e484c",
+                      "on-background": "#181c1e",
+                      "on-surface": "#181c1e",
+                      "tertiary-fixed": "#ffdcbe",
+                      "on-primary": "#ffffff",
+                      "primary": "#006577",
+                      "outline": "#6e797c",
+                      "on-tertiary-container": "#fffbff",
+                      "inverse-on-surface": "#edf1f3",
+                      "surface-tint": "#00687a",
+                      "on-secondary": "#ffffff",
+                      "on-error": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.375rem",
+                      "lg": "0.75rem",
+                      "xl": "1.25rem",
+                      "2xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "gutter": "24px",
+                      "xl": "64px",
+                      "base": "8px",
+                      "md": "24px",
+                      "margin": "32px",
+                      "lg": "48px",
+                      "sm": "12px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Quicksand", "sans-serif"],
+                      "label-md": ["Quicksand", "sans-serif"],
+                      "headline-lg": ["Fredoka", "sans-serif"],
+                      "body-md": ["Nunito", "sans-serif"],
+                      "headline-md": ["Quicksand", "sans-serif"],
+                      "body-sm": ["Nunito", "sans-serif"],
+                      "body-lg": ["Nunito", "sans-serif"],
+                      "headline-xl": ["Fredoka", "sans-serif"]
+              },
+              "fontSize": {
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "34px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "26px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-xl": [
+                              "42px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .soft-shadow {
+            box-shadow: -4px -4px 12px rgba(255, 255, 255, 0.9), 4px 4px 15px rgba(0, 101, 119, 0.06);
+        }
+        .soft-inner-shadow {
+            box-shadow: inset 4px 4px 10px rgba(0, 101, 119, 0.05), inset -4px -4px 10px rgba(255, 255, 255, 0.9);
+        }
+        .paw-pattern {
+            background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M15 10c0-1.657-1.343-3-3-3s-3 1.343-3 3 1.343 3 3 3 3-1.343 3-3zm10 0c0-1.657-1.343-3-3-3s-3 1.343-3 3 1.343 3 3 3 3-1.343 3-3zM25 25c0-1.657-1.343-3-3-3s-3 1.343-3 3 1.343 3 3 3 3-1.343 3-3zm-10 0c0-1.657-1.343-3-3-3s-3 1.343-3 3 1.343 3 3 3 3-1.343 3-3zM20 18c-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5-2.239-5-5-5z" fill="%23006577" fill-opacity="0.035"/></svg>');
+        }
+        
+        /* Perspectiva 3D */
+        .card-3d {
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            will-change: transform, box-shadow;
+        }
+        .card-3d:hover {
+            box-shadow: 0 25px 50px rgba(0, 101, 119, 0.12), 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+        .card-3d-inner {
+            transform: translateZ(24px);
+        }
+        
+        /* Flutuação sutil */
+        @keyframes float3d {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-8px) rotate(1deg);
+            }
+        }
+        .floating-3d {
+            animation: float3d 6s ease-in-out infinite;
+        }
+
+        /* Shadow 3D no chão */
+        @keyframes shadowSize {
+            0%, 100% { transform: scale(1); opacity: 0.35; }
+            50% { transform: scale(0.85); opacity: 0.15; filter: blur(4px); }
+        }
+        .shadow-3d-ground {
+            animation: shadowSize 6s ease-in-out infinite;
+        }
+
+        /* Brilho Shimmer Glassmorphic */
+        @keyframes shine {
+            100% {
+                left: 125%;
+            }
+        }
+        .shimmer-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 100%);
+            transform: skewX(-25deg);
+            pointer-events: none;
+        }
+        .shimmer-shine:hover::after {
+            animation: shine 0.8s ease-in-out;
+        }
+
+        /* Efeito Glassmorphism premium */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .dark .glass-card {
+            background: rgba(44, 49, 51, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Entrada em Cascata */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        /* Tremor de Erro */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-gradient-to-br from-surface-container-low to-primary-fixed paw-pattern min-h-screen flex items-center justify-center p-4">
+<main class="w-full max-w-md">
+<!-- Hero & Branding -->
+<div class="flex flex-col items-center mb-6 animate-fade-in-up" style="animation-delay: 0.1s;">
+<div class="relative flex flex-col items-center mb-0">
+<div class="w-48 h-48 floating-3d relative z-10 transition-transform duration-300 hover:scale-105 cursor-pointer">
+<img alt="Bom Garoto Logo" class="w-full h-full object-contain" src="logoTransparente.png"/>
+</div>
+<div class="w-24 h-1.5 bg-primary/15 dark:bg-primary-fixed-dim/10 rounded-full blur-[1px] mt-0.5 shadow-3d-ground"></div>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-primary font-bold text-center mt-1">Bom Garoto</h1>
+<p class="font-sans text-sm sm:text-base text-secondary dark:text-outline-variant font-bold text-center tracking-widest uppercase mt-0.5">Complexo Canino</p>
+</div>
+<!-- Login Form Card -->
+<div class="card-3d glass-card rounded-xl p-6 sm:p-8 soft-shadow relative overflow-hidden animate-fade-in-up" style="animation-delay: 0.3s;">
+<form class="space-y-6 relative z-10 card-3d-inner" id="login-form">
+<!-- Error Message Banner -->
+<div id="error-message" class="hidden bg-error-container/60 dark:bg-error-container/20 border border-error/20 rounded-xl p-3 flex items-start gap-3 animate-fade-in-up">
+<span class="material-symbols-outlined text-error flex-shrink-0 mt-0.5">error</span>
+<p class="font-body-sm text-body-sm text-on-error-container dark:text-red-300 font-semibold leading-relaxed">Ops! E-mail ou senha incorretos. Verifique os dados e tente novamente! 🐾</p>
+</div>
+<!-- Email Input -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface dark:text-inverse-on-surface pl-2 block font-bold" for="email">E-mail</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors duration-300">mail</span>
+<input class="w-full bg-surface-container-highest/40 dark:bg-inverse-surface/30 border border-transparent rounded-xl py-4 pl-12 pr-4 font-body-md text-body-md text-on-surface dark:text-inverse-on-surface placeholder:text-outline-variant/60 soft-inner-shadow focus:border-primary/30 focus:ring-1 focus:ring-primary/40 focus:bg-white dark:focus:bg-inverse-surface transition-all duration-300" id="email" placeholder="seu@email.com.br" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface dark:text-inverse-on-surface pl-2 block font-bold" for="senha">Senha</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors duration-300">lock</span>
+<input class="w-full bg-surface-container-highest/40 dark:bg-inverse-surface/30 border border-transparent rounded-xl py-4 pl-12 pr-4 font-body-md text-body-md text-on-surface dark:text-inverse-on-surface placeholder:text-outline-variant/60 soft-inner-shadow focus:border-primary/30 focus:ring-1 focus:ring-primary/40 focus:bg-white dark:focus:bg-inverse-surface transition-all duration-300" id="senha" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-300" type="button" onclick="const s = document.getElementById('senha'); s.type = s.type === 'password' ? 'text' : 'password'; const icon = this.querySelector('span'); icon.textContent = s.type === 'password' ? 'visibility' : 'visibility_off';">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Forgot Password Link -->
+<div class="flex justify-end">
+<a class="font-label-sm text-label-sm text-primary dark:text-primary-fixed-dim hover:text-primary-fixed-dim dark:hover:text-primary font-bold transition-colors duration-300" href="#">
+                        Esqueci minha senha
+                    </a>
+</div>
+<!-- Primary Action Button -->
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline-md text-headline-md py-4 rounded-full soft-shadow hover:from-primary-container hover:to-primary hover:shadow-lg active:scale-95 transition-all duration-300 mt-4 flex items-center justify-center gap-2 font-bold shimmer-shine" type="submit">
+                    Entrar
+                    <span class="material-symbols-outlined text-lg">login</span>
+</button>
+</form>
+</div>
+<!-- Create Account Section -->
+<div class="mt-8 text-center animate-fade-in-up" style="animation-delay: 0.5s;">
+<p class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant font-medium">
+                Ainda não tem uma conta? 
+                <a class="font-label-md text-label-md text-primary dark:text-primary-fixed-dim hover:text-primary-fixed-dim dark:hover:text-primary ml-1 font-bold transition-colors duration-300" href="#">
+                    Criar conta
+                </a>
+</p>
+</div>
+</main>
+<!-- JavaScript para o Efeito 3D Tilt Interativo -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.card-3d');
+
+        cards.forEach(card => {
+            // Mousemove (Desktop)
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const xc = rect.width / 2;
+                const yc = rect.height / 2;
+                const dx = (x - xc) / xc;
+                const dy = (y - yc) / yc;
+                
+                const rotX = -dy * 12; // inclinação de até 12 graus
+                const rotY = dx * 12;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            // Mouseleave
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+
+            // Touchmove (Mobile)
+            card.addEventListener('touchmove', e => {
+                if (e.touches.length === 1) {
+                    const rect = card.getBoundingClientRect();
+                    const touch = e.touches[0];
+                    const x = touch.clientX - rect.left;
+                    const y = touch.clientY - rect.top;
+                    
+                    if (x < 0 || x > rect.width || y < 0 || y > rect.height) {
+                        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                        return;
+                    }
+                    
+                    const xc = rect.width / 2;
+                    const yc = rect.height / 2;
+                    const dx = (x - xc) / xc;
+                    const dy = (y - yc) / yc;
+                    
+                    const rotX = -dy * 8; // menor no mobile para estabilidade visual
+                    const rotY = dx * 8;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.01, 1.01, 1.01)`;
+                }
+            }, { passive: true });
+
+            // Touchend
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        });
+
+        // Lógica de Autenticação do Bom Garoto
+        const form = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+        const cardContainer = document.querySelector('.card-3d');
+
+        if (form) {
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value.trim();
+                const senha = document.getElementById('senha').value;
+
+                errorMessage.classList.add('hidden');
+
+                if (email === 'bomgaroto@admin.com' && senha === '1234') {
+                    // Credenciais válidas -> redirecionar para a Dashboard
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // Credenciais inválidas -> exibir mensagem e aplicar tremor (shake)
+                    errorMessage.classList.remove('hidden');
+                    
+                    if (cardContainer) {
+                        cardContainer.classList.add('animate-shake');
+                        cardContainer.addEventListener('animationend', () => {
+                            cardContainer.classList.remove('animate-shake');
+                        }, { once: true });
+                    }
+                }
+            });
+        }
+    });
+</script>
+</body></html>

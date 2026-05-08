@@ -622,6 +622,14 @@
                 }
             });
         }
+
+        // Prevenir foco automático forçado pelo navegador ao carregar a página
+        setTimeout(() => {
+            const activeEl = document.activeElement;
+            if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) {
+                activeEl.blur();
+            }
+        }, 50);
     });
 </script>
 

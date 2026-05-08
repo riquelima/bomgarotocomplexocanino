@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MatchFlix - A Experiência Cine-Cyber Noir</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#e50914">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MatchFlix">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/1m1iVsm.png">
+
+    <!-- Open Graph / Social Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MatchFlix - Descubra filmes que combinam com você">
+    <meta property="og:description" content="Swipe, curta e construa sua coleção de filmes perfeita. O app que faz o match entre você e o cinema.">
+    <meta property="og:image" content="https://i.imgur.com/1m1iVsm.png">
+    <meta property="og:url" content="https://matchflix.vercel.app">
+    <meta property="og:site_name" content="MatchFlix">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MatchFlix - Descubra filmes que combinam com você">
+    <meta name="twitter:description" content="Swipe, curta e construa sua coleção de filmes perfeita.">
+    <meta name="twitter:image" content="https://i.imgur.com/1m1iVsm.png">
+    
+    <!-- Scripts & Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Plus+Jakarta+Sans:ital,wght@0,700;0,800;1,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script type="module">
+        import { supabase } from './js/supabase.js';
+        
+        // Verificação de sessão persistente ao carregar
+        (async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                window.location.href = "descobrir.html";
+            }
+        })();
+    </script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#E50914",
+                        "primary-glow": "rgba(229, 9, 20, 0.4)",
+                        surface: "#050505",
+                        "surface-container": "#121212",
+                        "surface-container-high": "#1E1E1E",
+                    },
+                    fontFamily: {
+                        headline: ["Plus Jakarta Sans", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --neon-red: #E50914;
+            --neon-red-glow: rgba(229, 9, 20, 0.6);
+        }
+
+        body {
+            background-color: #050505;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 0) 0%, rgba(5, 5, 5, 1) 100%),
+                url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+        }
+
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            background-color: var(--neon-red);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 20px var(--neon-red-glow);
+        }
+
+        .btn-primary:active { transform: scale(0.95); }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.2);
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .btn-primary:hover::after { transform: translateY(0); }
+
+        .glass-card {
+            background: rgba(18, 18, 18, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(229, 9, 20, 0.3);
+            background: rgba(229, 9, 20, 0.05);
+        }
+
+        .perspective-1000 { perspective: 1000px; }
+
+        .hud-corner {
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            border-color: rgba(229, 9, 20, 0.4);
+            transition: all 0.5s;
+        }
+
+        .hud-tl { top: 0; left: 0; border-top: 2px solid; border-left: 2px solid; }
+        .hud-tr { top: 0; right: 0; border-top: 2px solid; border-right: 2px solid; }
+        .hud-bl { bottom: 0; left: 0; border-bottom: 2px solid; border-left: 2px solid; }
+        .hud-br { bottom: 0; right: 0; border-bottom: 2px solid; border-right: 2px solid; }
+
+        .glass-card:hover .hud-corner {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-color: var(--neon-red);
+            transform: scale(1.1);
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+
+        .text-glow {
+            text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+        }
+
+        /* Mural de pôsteres - Colagem Editorial */
+        .poster-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 115px;
+            grid-auto-flow: row dense;
+            gap: 8px;
+            padding: 0 16px;
+        }
+        @media(min-width:768px) {
+            .poster-grid {
+                grid-template-columns: repeat(6, 1fr);
+                grid-auto-rows: 120px;
+                gap: 10px;
+            }
+        }
+        @media(min-width:1024px) {
+            .poster-grid {
+                grid-template-columns: repeat(8, 1fr);
+                grid-auto-rows: 125px;
+                gap: 10px;
+            }
+        }
+        .poster-cell {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #1a1a1a;
+            min-height: 115px;
+        }
+        /* 3 tamanhos de célula */
+        .poster-cell.big   { grid-column: span 2; grid-row: span 2; } /* 2×2 = 4 slots */
+        .poster-cell.tall  { grid-column: span 1; grid-row: span 2; } /* 1×2 = 2 slots */
+        .poster-cell.small { grid-column: span 1; grid-row: span 1; } /* 1×1 = 1 slot  */
+        .poster-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .poster-cell::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(5,5,5,0.7) 100%);
+            pointer-events: none;
+        }
+        /* Limita o grid ao que cabe na tela sem espaço vazio */
+        .poster-grid-wrap {
+            overflow: hidden;
+            /* altura dinâmica: definida por JS após montar o grid */
+        }
+        /* PWA Install Prompt */
+        #pwa-install-prompt {
+            position: fixed;
+            bottom: -200px;
+            left: 16px;
+            right: 16px;
+            margin: 0 auto;
+            width: calc(100% - 32px);
+            max-width: 400px;
+            z-index: 100000;
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid rgba(229, 9, 20, 0.4);
+            backdrop-filter: blur(25px);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(229, 9, 20, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            transition: opacity 0.3s ease;
+            padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        .pwa-step-indicator {
+            width: 24px;
+            height: 24px;
+            background: var(--neon-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        /* Tutorial Modal */
+        #pwa-tutorial-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(12px);
+            z-index: 100001;
+            display: none;
+            opacity: 0;
+        }
+
+        .tutorial-card {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 340px;
+            width: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .share-icon-animate {
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="noise-overlay"></div>
+    
+    <!-- Dynamic Cursor Glow -->
+    <div id="mouse-glow" class="fixed w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px] pointer-events-none -translate-x-1/2 -translate-y-1/2 z-0"></div>
+
+    <!-- Header / Nav -->
+    <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-white/5">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2 group cursor-pointer">
+                <span class="material-symbols-outlined text-primary group-hover:rotate-180 transition-transform duration-700" style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+                <span class="font-headline font-extrabold text-2xl tracking-tighter text-white">Match<span class="text-[#E50914]">Flix</span></span>
+            </div>
+            <a href="login.html" class="font-headline font-bold text-sm tracking-widest uppercase hover:text-primary transition-colors duration-300 px-6 py-2 border border-white/10 rounded-full hover:border-primary/50">
+                Entrar
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="relative flex flex-col items-center justify-center pt-28 pb-16 overflow-hidden">
+        <!-- 3D Background Grid -->
+        <div class="absolute inset-0 z-0 opacity-20" style="background-image: linear-gradient(rgba(229, 9, 20, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(229, 9, 20, 0.1) 1px, transparent 1px); background-size: 50px 50px; transform: perspective(500px) rotateX(60deg) translateY(-100px); transform-origin: top;"></div>
+
+        <div class="container mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+
+            <h1 class="hero-elem font-headline font-black text-6xl md:text-8xl lg:text-9xl tracking-tighter leading-[0.9] mb-8 text-glow">
+                O MATCH <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-red-500 to-primary select-none">PERFEITO.</span>
+            </h1>
+
+            <p class="hero-elem max-w-2xl text-lg md:text-xl text-white/60 mb-12 font-body leading-relaxed">
+                Deslize para descobrir filmes que você realmente vai amar. Uma interface fluida, viciante e inteligente para a sua próxima noite de cinema.
+            </p>
+
+            <div class="hero-elem flex flex-col md:flex-row gap-6 items-center">
+                <button class="btn-primary flex items-center gap-3" id="main-cta">
+                    <span>COMEÇAR AGORA</span>
+                    <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
+                </button>
+                <a href="#" class="text-sm font-bold tracking-widest uppercase text-white/40 hover:text-white transition-colors">
+                    Saber mais sobre o algoritmo
+                </a>
+            </div>
+        </div>
+
+        <!-- Floating Decoration -->
+        <div class="absolute right-[5%] top-[20%] w-32 h-48 bg-primary/5 border border-white/5 blur-sm animate-float"></div>
+        <div class="absolute left-[8%] bottom-[15%] w-24 h-36 bg-primary/10 border border-white/5 blur-md animate-float" style="animation-delay: -2s"></div>
+    </main>
+
+    <!-- === MURAL DE PÔSTERES VIVOS === -->
+    <section class="relative z-10 overflow-hidden bg-surface pt-4 pb-0">
+        <div class="text-center mb-10 px-6">
+            <p class="text-[10px] tracking-[0.3em] uppercase text-primary/60 font-bold mb-3">Seu próximo match espera por você</p>
+            <h2 class="font-headline font-black text-3xl md:text-5xl tracking-tight text-white">Milhares de filmes,<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-red-400">um pra chamar de seu.</span></h2>
+        </div>
+        <!-- Fade lateral esquerdo -->
+        <div class="absolute inset-y-0 left-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to right, #050505, transparent);"></div>
+        <!-- Fade lateral direito -->
+        <div class="absolute inset-y-0 right-0 w-24 z-10 pointer-events-none" style="background: linear-gradient(to left, #050505, transparent);"></div>
+        <!-- Fade rodapé (funde com value props) -->
+        <div class="absolute bottom-0 left-0 right-0 h-48 z-10 pointer-events-none" style="background: linear-gradient(to top, #050505 20%, transparent);"></div>
+
+        <div class="poster-grid-wrap" id="poster-mural-wrap">
+            <div class="poster-grid max-w-7xl mx-auto" id="poster-mural"></div>
+        </div>
+    </section>
+
+
+
+    <footer class="py-3 bg-black border-t border-white/5">
+        <div class="flex justify-center items-center">
+            <span class="font-headline font-extrabold text-lg tracking-tighter text-white">Match<span class="text-[#E50914]">Flix</span></span>
+        </div>
+    </footer>
+
+
+    <script>
+        // === Lógica PWA Install Prompt (Top Priority) ===
+        (function() {
+            const pwaPrompt = document.getElementById('pwa-install-prompt');
+            const pwaOverlay = document.getElementById('pwa-tutorial-overlay');
+            const btnInstall = document.getElementById('btn-install-pwa');
+            const btnClosePwa = document.getElementById('btn-close-pwa');
+            const btnCloseTutorial = document.getElementById('btn-close-tutorial');
+
+            if (pwaPrompt) {
+                console.log("PWA Script Found Elements");
+                setTimeout(() => {
+                    console.log("PWA Animation Triggered");
+                    gsap.fromTo(pwaPrompt, 
+                        { bottom: -200, opacity: 0, visibility: 'visible' },
+                        { bottom: 24, opacity: 1, duration: 1.5, ease: "power4.out" }
+                    );
+                }, 1000);
+
+                btnInstall.addEventListener('click', () => {
+                    pwaOverlay.style.display = 'flex';
+                    gsap.fromTo(pwaOverlay, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+                    gsap.from(".tutorial-card", { scale: 0.8, opacity: 0, duration: 0.6, ease: "back.out(1.7)" });
+                });
+
+                btnCloseTutorial.addEventListener('click', () => {
+                    gsap.to(pwaOverlay, { opacity: 0, duration: 0.4, onComplete: () => pwaOverlay.style.display = 'none' });
+                    gsap.to(pwaPrompt, { bottom: -200, opacity: 0, duration: 0.8 });
+                });
+
+                btnClosePwa.addEventListener('click', () => {
+                    gsap.to(pwaPrompt, { bottom: -200, opacity: 0, duration: 0.8 });
+                });
+            } else {
+                console.error("PWA Prompt Element NOT FOUND");
+            }
+        })();
+
+        // Init Tilt
+        VanillaTilt.init(document.querySelectorAll(".glass-card"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.3
+        });
+
+        // GSAP Animations
+        const tl = gsap.timeline();
+        tl.from(".hero-elem", {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power4.out"
+        })
+        .from(".v-card", {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power2.out"
+        }, "-=0.5");
+
+        // Magnetic Mouse Glow
+        document.addEventListener("mousemove", (e) => {
+            gsap.to("#mouse-glow", {
+                left: e.clientX,
+                top: e.clientY,
+                duration: 0.6,
+                ease: "power2.out"
+            });
+        });
+
+        // Magnetic Button
+        const btn = document.getElementById("main-cta");
+        btn.addEventListener("mousemove", (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            gsap.to(btn, {
+                x: x * 0.3,
+                y: y * 0.3,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+        btn.addEventListener("mouseleave", () => {
+            gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+        });
+
+        // Animação de transição e redirecionamento
+        btn.addEventListener("click", () => {
+            document.body.style.pointerEvents = "none";
+            
+            // Glitch e fade out
+            gsap.to(".hero-elem", {
+                y: -40,
+                opacity: 0,
+                duration: 0.5,
+                stagger: 0.05,
+                ease: "power3.in"
+            });
+            
+            gsap.to(".noise-overlay", {
+                opacity: 0.15,
+                duration: 0.3,
+                yoyo: true,
+                repeat: 1
+            });
+            
+            gsap.to("body", {
+                opacity: 0,
+                duration: 0.5,
+                delay: 0.4,
+                ease: "power2.inOut",
+                onComplete: () => {
+                    window.location.href = "cadastro.html";
+                }
+            });
+        });
+    </script>
+
+    <script>
+    (function() {
+        const API_KEY = "416394469462693ee5727abe4c864848";
+        const IMG = "https://image.tmdb.org/t/p/w500";
+        const mural = document.getElementById("poster-mural");
+        let allPosters = [];
+        let cells = [];
+
+        // Padrão editorial: repete ciclicamente criando ritmo visual assimétrico
+        // big=2×2, tall=1×2, small=1×1
+        // Soma: 4+1+1+2+1+1+4+2+1+1 = 18 squares por ciclo
+        const PATTERN = [
+            'big',   // câncora visual forte
+            'small',
+            'small',
+            'tall',  // ritmo vertical
+            'small',
+            'small',
+            'tall',  // ritmo vertical
+            'small',
+            'big',   // segunda âncora
+            'small',
+            'small',
+            'tall',
+            'small',
+            'small',
+        ];
+
+        function getTotalCells() {
+            // Calcula quantas células são necessárias para cobrir ~75vh
+            const w = window.innerWidth;
+            const cols = w >= 1024 ? 8 : w >= 768 ? 6 : 4;
+            const rowH = w >= 1024 ? 135 : w >= 768 ? 130 : 123;
+            const targetH = window.innerHeight * 0.75;
+            const rows = Math.ceil(targetH / rowH);
+            return Math.ceil(rows * cols / 1.6);
+        }
+
+        function setWrapHeight() {
+            // Usa max-height para nunca ultrapassar 75vh mas encolhe se o conteúdo for menor
+            const wrap = document.getElementById('poster-mural-wrap');
+            const targetH = Math.round(window.innerHeight * 0.75);
+            if (wrap) {
+                wrap.style.maxHeight = targetH + 'px';
+                wrap.style.height = 'auto';
+            }
+        }
+
+        function buildGrid() {
+            mural.innerHTML = "";
+            cells = [];
+            setWrapHeight();
+            // Limita células aos pôsteres disponíveis para nunca criar célula vazia escura
+            const ideal = getTotalCells();
+            const total = allPosters.length > 0
+                ? Math.min(ideal, allPosters.length)
+                : ideal;
+            for (let i = 0; i < total; i++) {
+                const type = PATTERN[i % PATTERN.length];
+                const cell = document.createElement("div");
+                cell.className = `poster-cell ${type}`;
+                const img = document.createElement("img");
+                img.alt = "";
+                img.loading = "lazy";
+                img.style.opacity = "0";
+                cell.appendChild(img);
+                mural.appendChild(cell);
+                cells.push({ el: cell, img, type, busy: false });
+            }
+        }
+
+        function swapPoster(cellObj) {
+            if (cellObj.busy || allPosters.length < 2) return;
+            cellObj.busy = true;
+            const newSrc = IMG + allPosters[Math.floor(Math.random() * allPosters.length)];
+
+            // Efeito de saída varia pelo tipo de célula (big: scale, tall: blur, small: slide)
+            const exitMap = {
+                big:   { opacity: 0, scale: 0.88, duration: 0.6 },
+                tall:  { opacity: 0, filter: 'blur(10px)', duration: 0.55 },
+                small: { opacity: 0, y: 12, duration: 0.45 }
+            };
+            const enterMap = {
+                big:   { opacity: 1, scale: 1, duration: 0.65, ease: 'power3.out' },
+                tall:  { opacity: 1, filter: 'blur(0px)', duration: 0.6, ease: 'power2.out' },
+                small: { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }
+            };
+            const exitProps  = { ...exitMap[cellObj.type],  ease: 'power2.in' };
+            const enterProps = { ...enterMap[cellObj.type] };
+
+            gsap.to(cellObj.img, {
+                ...exitProps,
+                onComplete: () => {
+                    cellObj.img.src = newSrc;
+                    cellObj.img.onload = () => {
+                        gsap.to(cellObj.img, { ...enterProps, onComplete: () => { cellObj.busy = false; } });
+                    };
+                    cellObj.img.onerror = () => { cellObj.busy = false; };
+                }
+            });
+        }
+
+        function initialFill() {
+            const shuffled = [...allPosters].sort(() => Math.random() - 0.5);
+            cells.forEach((cell, i) => {
+                cell.img.src = IMG + (shuffled[i % shuffled.length]);
+                // Delays escalonados com velocidade por tipo (big entra mais devagar)
+                const delay = i * 0.05 + (cell.type === 'big' ? 0.1 : 0);
+                cell.img.onload = () => gsap.to(cell.img, { opacity: 1, duration: 0.7, delay, ease: 'power2.out' });
+            });
+        }
+
+        function startSwapLoop() {
+            cells.forEach((cell, i) => {
+                // Células big trocam mais devagar (mais impactante)
+                const baseInterval = cell.type === 'big' ? 6000 : cell.type === 'tall' ? 4500 : 3000;
+                const baseDelay = 2000 + i * 350 + Math.random() * 1500;
+                setTimeout(function loop() {
+                    swapPoster(cell);
+                    setTimeout(loop, baseInterval + Math.random() * 3000);
+                }, baseDelay);
+            });
+        }
+
+        async function fetchPosters() {
+            const pages = [1, 2, 3, 4];
+            const urls = [
+                ...pages.map(p => `https://api.themoviedb.org/3/movie/popular?language=pt-BR&page=${p}&api_key=${API_KEY}`),
+                ...pages.map(p => `https://api.themoviedb.org/3/movie/top_rated?language=pt-BR&page=${p}&api_key=${API_KEY}`)
+            ];
+            try {
+                const results = await Promise.all(urls.map(u => fetch(u).then(r => r.json())));
+                const posters = results.flatMap(r => r.results || []).filter(m => m.poster_path).map(m => m.poster_path);
+                allPosters = [...new Set(posters)];
+                buildGrid();
+                initialFill();
+                startSwapLoop();
+            } catch(e) { console.error("Mural:", e); }
+        }
+
+        window.addEventListener('resize', () => {
+            clearTimeout(window._muralResize);
+            window._muralResize = setTimeout(() => { buildGrid(); initialFill(); startSwapLoop(); }, 300);
+        });
+
+        setWrapHeight(); // Define altura do wrap imediatamente ao carregar
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fetchPosters);
+        } else {
+            fetchPosters();
+        }
+
+    })();
+    </script>
+    <!-- PWA Install Prompt (Mapeado no final para z-index real) -->
+    <div id="pwa-install-prompt" class="p-4 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20">
+                <span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">install_mobile</span>
+            </div>
+            <div>
+                <p class="font-headline font-bold text-sm text-white">Instale o MatchFlix</p>
+                <p class="text-[10px] text-white/50 uppercase tracking-widest font-black">Experiência WebApp nativa</p>
+            </div>
+        </div>
+        <button id="btn-install-pwa" class="bg-primary hover:bg-red-600 text-white px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all active:scale-95 shadow-[0_4px_15px_rgba(229,9,20,0.3)]">
+            Instalar
+        </button>
+        <button id="btn-close-pwa" class="absolute -top-2 -right-2 w-6 h-6 bg-surface-container-high rounded-full flex items-center justify-center border border-white/10 text-white/40 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-xs">close</span>
+        </button>
+    </div>
+
+    <!-- Tutorial PWA Overlay -->
+    <div id="pwa-tutorial-overlay" class="items-center justify-center">
+        <div class="tutorial-card text-center">
+            <div class="mb-6 relative inline-block">
+                <div class="w-20 h-20 bg-primary/20 rounded-3xl flex items-center justify-center mx-auto border border-primary/30">
+                    <span class="material-symbols-outlined text-primary text-5xl share-icon-animate">ios_share</span>
+                </div>
+            </div>
+            
+            <h3 class="font-headline font-black text-2xl text-white mb-2 uppercase italic tracking-tighter">Como instalar</h3>
+            <p class="text-white/60 text-sm mb-8 leading-relaxed">Siga estes passos simples para ter o MatchFlix na sua tela inicial:</p>
+            
+            <div class="space-y-6 text-left mb-8">
+                <div class="flex items-start gap-4">
+                    <div class="pwa-step-indicator">1</div>
+                    <p class="text-sm text-white/80 font-medium">Toque no ícone de <span class="text-primary font-bold">Compartilhar</span> no seu navegador.</p>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="pwa-step-indicator">2</div>
+                    <p class="text-sm text-white/80 font-medium">Role para baixo e selecione <span class="text-white font-bold italic">"Adicionar à Tela de Início"</span>.</p>
+                </div>
+            </div>
+
+            <button id="btn-close-tutorial" class="w-full py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-black uppercase tracking-widest text-xs rounded-2xl transition-all">
+                Entendi, vamos lá
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // === Lógica PWA Install Prompt (Top Priority) ===
+        (function() {
+            const pwaPrompt = document.getElementById('pwa-install-prompt');
+            const pwaOverlay = document.getElementById('pwa-tutorial-overlay');
+            const btnInstall = document.getElementById('btn-install-pwa');
+            const btnClosePwa = document.getElementById('btn-close-pwa');
+            const btnCloseTutorial = document.getElementById('btn-close-tutorial');
+
+            // Verifica se já está instalado
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone || document.referrer.includes('android-app://');
+
+            if (pwaPrompt && !isStandalone) {
+                setTimeout(() => {
+                    gsap.fromTo(pwaPrompt, 
+                        { bottom: -200, opacity: 0, pointerEvents: 'none' },
+                        { bottom: 24, opacity: 1, pointerEvents: 'auto', duration: 1.5, ease: "power4.out" }
+                    );
+                }, 2500); // Dá um tempo para o usuário ver o mural primeiro
+
+                btnInstall.addEventListener('click', () => {
+                    pwaOverlay.style.display = 'flex';
+                    gsap.fromTo(pwaOverlay, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+                    gsap.from(".tutorial-card", { scale: 0.8, opacity: 0, duration: 0.6, ease: "back.out(1.7)" });
+                });
+
+                btnCloseTutorial.addEventListener('click', () => {
+                    gsap.to(pwaOverlay, { opacity: 0, duration: 0.4, onComplete: () => pwaOverlay.style.display = 'none' });
+                    gsap.to(pwaPrompt, { bottom: -200, opacity: 0, duration: 0.8 });
+                });
+
+                btnClosePwa.addEventListener('click', () => {
+                    gsap.to(pwaPrompt, { bottom: -200, opacity: 0, duration: 0.8 });
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

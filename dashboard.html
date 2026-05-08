@@ -21,9 +21,18 @@
 
 <!-- Segurança: Verificação de Sessão Imediata -->
 <script>
-    if (localStorage.getItem('bomgaroto_logged_in') !== 'true') {
+    // Proteção de Rota SPA (Execução Imediata)
+    if (localStorage.getItem('bg_session_active') !== 'true') {
         window.location.replace('login.html');
     }
+
+    // Função de Logout Global (Prioridade Máxima)
+    window.handleLogoutSPA = function() {
+        console.log("Iniciando logout seguro...");
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.replace('login.html?logout=true');
+    };
 </script>
 
 <!-- Metatags Open Graph (Pré-visualização de Link no WhatsApp, Instagram, Telegram) -->
@@ -503,19 +512,87 @@
             transform: scale(0.96);
         }
 
-        /* Brilho Suave de Carregamento */
-        @keyframes shimmer-loading {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+        /* --- ESTILOS PARA SPLASH SCREEN E BOLHAS ORBITAIS --- */
+        .bubble-particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10001;
         }
-        .skeleton {
-            background: linear-gradient(90deg, var(--surface-container-low) 25%, var(--surface-container-high) 50%, var(--surface-container-low) 75%);
-            background-size: 200% 100%;
-            animation: shimmer-loading 1.5s infinite;
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(var(--r)) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(var(--r)) rotate(-360deg); }
+        }
+        .animate-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -50px;
+            animation: orbit 15s linear infinite;
+            animation-delay: var(--d);
+        }
+        .animate-reveal-slow {
+            animation: revealSlow 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes revealSlow {
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+        .splash-exit-bubbles {
+            transform: scale(2) !important;
+            opacity: 0 !important;
+            filter: blur(20px);
         }
     </style>
   </head>
 <body class="bg-background text-on-background min-h-screen overflow-hidden">
+
+<!-- Splash Screen de Entrada: Revelação por Bolhas (Executa em cada Load) -->
+<div id="dashboard-splash" class="fixed inset-0 z-[10000] bg-[#1a1e20] flex flex-col items-center justify-center transition-all duration-1000 overflow-hidden">
+    <!-- Container de Partículas Orbitais -->
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="bubble-particle !w-64 !h-64 !bg-primary/20 blur-2xl animate-orbit" style="--d: 0s; --r: 220px;"></div>
+        <div class="bubble-particle !w-40 !h-40 !bg-primary/10 blur-xl animate-orbit" style="--d: -2.5s; --r: 160px;"></div>
+        <div class="bubble-particle !w-32 !h-32 !bg-primary/30 blur-3xl animate-orbit" style="--d: -5s; --r: 280px;"></div>
+        <div class="bubble-particle !w-20 !h-20 !bg-white/10 blur-lg animate-orbit" style="--d: -1.5s; --r: 190px;"></div>
+    </div>
+
+    <!-- Conteúdo Central -->
+    <div class="relative z-10 flex flex-col items-center">
+        <div class="w-56 h-56 mb-8 relative animate-reveal-slow">
+            <div class="absolute inset-0 bg-primary/20 rounded-full blur-[60px] animate-pulse"></div>
+            <img src="logoTransparente.png" alt="Bom Garoto" class="w-full h-full object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.2)] floating-3d">
+        </div>
+        
+        <!-- Loading Spinner Premium -->
+        <div class="flex flex-col items-center gap-4">
+            <div class="relative w-12 h-12">
+                <div class="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
+                <div class="absolute inset-0 border-4 border-t-primary rounded-full animate-spin"></div>
+            </div>
+            <p class="text-white/60 font-bold uppercase tracking-[0.4em] text-[10px] animate-pulse">Sincronizando Dados</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Gerenciador da Splash Screen do Dashboard
+    document.addEventListener('DOMContentLoaded', () => {
+        const splash = document.getElementById('dashboard-splash');
+        if (splash) {
+            // Mantém a splash por um tempo premium (2.5s)
+            setTimeout(() => {
+                splash.classList.add('splash-exit-bubbles');
+                if (navigator.vibrate) navigator.vibrate([10, 20]);
+                
+                // Remove do DOM após a animação de saída para liberar performance
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                }, 1000);
+            }, 2500);
+        }
+    });
+</script>
 
 <div id="view-slider">
     <!-- Seção Dashboard -->
@@ -2297,14 +2374,7 @@
         }
     }, { passive: true });
 
-    // Função de Logout com limpeza de sessão persistente
-    function handleLogoutSPA() {
-        if (confirm('Deseja realmente sair do sistema?')) {
-            localStorage.removeItem('bomgaroto_logged_in');
-            // Usamos replace para remover a página atual do histórico e evitar loops
-            window.location.replace('login.html?logout=true');
-        }
-    }
+    // handleLogoutSPA movida para o cabeçalho para maior confiabilidade
 
     // === MÓDULO DE CONTROLE DE TEMAS PREMIUM E VISUAL FLUIDO ===
     function applySystemTheme(themeName, isUserAction = false) {

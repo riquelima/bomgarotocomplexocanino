@@ -382,23 +382,114 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
+        /* Animação Apple Watch Bubbles */
+        .bubble-particle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #006577 0%, #008096 100%);
+            opacity: 0;
+            transform: scale(0) translate(0, 0);
+            animation: appleWatchPulse 2.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            filter: blur(0.5px);
+            pointer-events: none;
+        }
+        .dark .bubble-particle {
+            background: linear-gradient(135deg, #72d4ed 0%, #006577 100%);
+        }
+
+        /* Tamanhos e direções variadas das bolhas para efeito de relógio da Apple */
+        .b1 { width: 32px; height: 32px; --tx: -45px; --ty: -35px; animation-delay: 0.1s; }
+        .b2 { width: 24px; height: 24px; --tx: 50px; --ty: -40px; animation-delay: 0.2s; }
+        .b3 { width: 36px; height: 36px; --tx: -55px; --ty: 45px; animation-delay: 0.3s; }
+        .b4 { width: 20px; height: 20px; --tx: 60px; --ty: 30px; animation-delay: 0.4s; }
+        .b5 { width: 28px; height: 28px; --tx: -15px; --ty: -65px; animation-delay: 0.5s; }
+        .b6 { width: 22px; height: 22px; --tx: 25px; --ty: 65px; animation-delay: 0.6s; }
+        .b7 { width: 30px; height: 30px; --tx: -70px; --ty: 5px; animation-delay: 0.7s; }
+        .b8 { width: 26px; height: 26px; --tx: 70px; --ty: -5px; animation-delay: 0.8s; }
+
+        @keyframes appleWatchPulse {
+            0% {
+                opacity: 0;
+                transform: scale(0) translate(0, 0);
+            }
+            25% {
+                opacity: 0.85;
+                transform: scale(1) translate(calc(var(--tx) * 0.4), calc(var(--ty) * 0.4));
+            }
+            55% {
+                opacity: 1;
+                transform: scale(1.1) translate(var(--tx), var(--ty));
+            }
+            75% {
+                opacity: 0.9;
+               transform: scale(0.9) translate(calc(var(--tx) * 0.2), calc(var(--ty) * 0.2));
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translate(0, 0);
+            }
+        }
+
+        /* Revelação Triunfal da Logo */
+        .logo-target {
+            opacity: 0;
+            transform: scale(0.65);
+            filter: blur(10px);
+            animation: logoReveal 3.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes logoReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.65);
+                filter: blur(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0px);
+            }
+        }
+
         body {
             min-height: max(884px, 100dvh);
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(0, 101, 119, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
         }
     </style>
   </head>
-<body class="bg-gradient-to-br from-surface-container-low to-primary-fixed paw-pattern min-h-screen flex items-center justify-center p-4">
-<main class="w-full max-w-md">
+<body class="bg-[#f0f4f6] dark:bg-[#1a1e20] paw-pattern min-h-screen flex items-center justify-center p-4 transition-colors duration-500">
+<main class="w-full max-w-md relative z-10">
 <!-- Hero & Branding -->
-<div class="flex flex-col items-center mb-6 animate-fade-in-up" style="animation-delay: 0.1s;">
-<div class="relative flex flex-col items-center mb-0">
-<div class="w-48 h-48 floating-3d relative z-10 transition-transform duration-300 hover:scale-105 cursor-pointer">
-<img alt="Bom Garoto Logo" class="w-full h-full object-contain" src="logoTransparente.png"/>
+<div class="flex flex-col items-center mb-6">
+<div class="relative flex flex-col items-center mb-0" style="width: 240px; height: 240px; justify-content: center;">
+    <!-- Bolhas animadas estilo Apple Watch -->
+    <div class="bubble-particle b1"></div>
+    <div class="bubble-particle b2"></div>
+    <div class="bubble-particle b3"></div>
+    <div class="bubble-particle b4"></div>
+    <div class="bubble-particle b5"></div>
+    <div class="bubble-particle b6"></div>
+    <div class="bubble-particle b7"></div>
+    <div class="bubble-particle b8"></div>
+    
+    <!-- Logo Principal -->
+    <div class="w-44 h-44 logo-target floating-3d relative z-10 transition-transform duration-300 hover:scale-105 cursor-pointer">
+        <img alt="Bom Garoto Logo" class="w-full h-full object-contain" src="logoTransparente.png"/>
+    </div>
+    <div class="w-24 h-1.5 bg-primary/15 dark:bg-primary-fixed-dim/10 rounded-full blur-[1px] mt-2 shadow-3d-ground logo-target"></div>
 </div>
-<div class="w-24 h-1.5 bg-primary/15 dark:bg-primary-fixed-dim/10 rounded-full blur-[1px] mt-0.5 shadow-3d-ground"></div>
-</div>
-<h1 class="font-headline-xl text-headline-xl text-primary font-bold text-center mt-1">Bom Garoto</h1>
-<p class="font-sans text-sm sm:text-base text-secondary dark:text-outline-variant font-bold text-center tracking-widest uppercase mt-0.5">Complexo Canino</p>
+<h1 class="font-headline-xl text-headline-xl text-primary font-bold text-center mt-2 logo-target">Bom Garoto</h1>
+<p class="font-sans text-sm sm:text-base text-secondary dark:text-outline-variant font-bold text-center tracking-widest uppercase mt-0.5 logo-target">Complexo Canino</p>
 </div>
 <!-- Login Form Card -->
 <div class="card-3d glass-card rounded-xl p-6 sm:p-8 soft-shadow relative overflow-hidden animate-fade-in-up" style="animation-delay: 0.3s;">
@@ -440,15 +531,7 @@
 </button>
 </form>
 </div>
-<!-- Create Account Section -->
-<div class="mt-8 text-center animate-fade-in-up" style="animation-delay: 0.5s;">
-<p class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant font-medium">
-                Ainda não tem uma conta? 
-                <a class="font-label-md text-label-md text-primary dark:text-primary-fixed-dim hover:text-primary-fixed-dim dark:hover:text-primary ml-1 font-bold transition-colors duration-300" href="#">
-                    Criar conta
-                </a>
-</p>
-</div>
+<!-- Create Account Section Removida por ser Sistema Interno -->
 </main>
 <!-- JavaScript para o Efeito 3D Tilt Interativo -->
 <script>

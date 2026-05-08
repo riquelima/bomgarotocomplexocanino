@@ -2772,27 +2772,50 @@
 
     // Estado global de agendamento de serviços
     const schedulingData = {
-        banho: { date: "", time: "09:00" },
-        creche: { days: [], startDate: "", startTime: "08:00", endTime: "18:00" },
+        banho: { date: "", time: "09:00", days: [] },
+        creche: { days: [], startDate: "", time: "08:00", endTime: "18:00" },
         hotel: { checkinDate: "", checkinTime: "14:00", checkoutDate: "", checkoutTime: "12:00" }
     };
 
-    function toggleSchedulingDay(day) {
-        const days = schedulingData.creche.days;
-        const idx = days.indexOf(day);
-        if (idx > -1) {
-            days.splice(idx, 1);
-        } else {
-            days.push(day);
-        }
+    function toggleSchedulingDay(service, day) {
+        // Agora permite apenas UM único dia
+        schedulingData[service].days = [day];
         renderSchedulingSection();
+        
+        // Fecha o dropdown automaticamente
+        const dropdown = document.getElementById(`day-dropdown-${service}`);
+        if (dropdown) dropdown.classList.add('hidden');
+        
+        if (navigator.vibrate) navigator.vibrate(12);
+    }
+
+    function toggleDaySelectorSPA(service) {
+        const dropdown = document.getElementById(`day-dropdown-${service}`);
+        if (dropdown) {
+            const isHidden = dropdown.classList.contains('hidden');
+            // Fecha todos os outros primeiro
+            document.querySelectorAll('[id$="-dropdown-banho"], [id$="-dropdown-creche"]').forEach(d => d.classList.add('hidden'));
+            if (isHidden) dropdown.classList.remove('hidden');
+        }
+        if (navigator.vibrate) navigator.vibrate(10);
+    }
+
+    function toggleTimeSelectorSPA(service) {
+        const dropdown = document.getElementById(`time-dropdown-${service}`);
+        if (dropdown) {
+            const isHidden = dropdown.classList.contains('hidden');
+            // Fecha todos os outros primeiro
+            document.querySelectorAll('[id$="-dropdown-banho"], [id$="-dropdown-creche"]').forEach(d => d.classList.add('hidden'));
+            if (isHidden) dropdown.classList.remove('hidden');
+        }
+        if (navigator.vibrate) navigator.vibrate(10);
     }
 
     function selectSchedulingTime(service, time) {
-        if (service === 'banho') {
-            schedulingData.banho.time = time;
-        }
-        renderSchedulingSection();
+        schedulingData[service].time = time;
+        // Não renderiza tudo de novo para não perder o foco do input nativo se estiver aberto
+        // Mas precisamos atualizar o estado interno
+        if (navigator.vibrate) navigator.vibrate(12);
     }
 
     function handleSchedulingInputChange(service, field, value) {
@@ -2820,38 +2843,77 @@
 
         section.classList.remove('hidden');
         let html = "";
+        const hours = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
+        const weekdays = [
+            { key: 'seg', label: 'Seg' },
+            { key: 'ter', label: 'Ter' },
+            { key: 'qua', label: 'Qua' },
+            { key: 'qui', label: 'Qui' },
+            { key: 'sex', label: 'Sex' },
+            { key: 'sab', label: 'Sáb' }
+        ];
 
         // BANHO
         if (hasBanho) {
-            const hours = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
+            const selectedTime = schedulingData.banho.time;
             let hoursHtml = "";
             hours.forEach(h => {
-                const isSelected = schedulingData.banho.time === h;
+                const isSelected = selectedTime === h;
                 hoursHtml += `
-                    <button type="button" onclick="selectSchedulingTime('banho', '${h}')" class="shrink-0 px-3 py-1.5 rounded-full text-xs font-black transition-all tap-press ${isSelected ? 'bg-primary text-white shadow' : 'bg-surface-container-low dark:bg-surface-container-high text-on-surface hover:bg-surface-container-high'}">
+                    <button type="button" onclick="event.stopPropagation(); selectSchedulingTime('banho', '${h}')" class="w-full py-2.5 rounded-xl text-xs font-black transition-all border border-surface-container-high dark:border-white/10 ${isSelected ? 'bg-primary text-white border-primary shadow' : 'bg-surface-container-low dark:bg-surface-container-high text-on-surface hover:bg-surface-container-high'}">
                         ${h}
+                    </button>
+                `;
+            });
+
+            const selectedDays = schedulingData.banho.days;
+            const displayTextDays = selectedDays.length > 0 
+                ? weekdays.filter(d => selectedDays.includes(d.key)).map(d => d.label).join(', ')
+                : "Selecionar...";
+
+            let daysHtml = "";
+            weekdays.forEach(d => {
+                const isSelected = selectedDays.includes(d.key);
+                daysHtml += `
+                    <button type="button" onclick="event.stopPropagation(); toggleSchedulingDay('banho', '${d.key}')" class="w-full py-2 rounded-xl text-[11px] font-black transition-all border border-surface-container-high dark:border-white/10 tap-press ${isSelected ? 'bg-primary text-white border-primary shadow' : 'bg-surface-container-low dark:bg-surface-container-high text-on-surface hover:bg-surface-container-high'}">
+                        ${d.label}
                     </button>
                 `;
             });
 
             html += `
                 <!-- Bloco Banho -->
-                <div class="bg-surface-container-lowest dark:bg-inverse-surface border border-surface-container-high dark:border-white/10 rounded-2xl p-4 shadow-sm animate-fade-in">
+                <div class="bg-surface-container-lowest dark:bg-inverse-surface border border-surface-container-high dark:border-white/10 rounded-2xl p-4 shadow-sm animate-fade-in relative">
                     <div class="flex items-center gap-2 border-b border-surface-container-high dark:border-white/10 pb-2.5 mb-3">
                         <span class="material-symbols-outlined text-primary text-[20px]">bathtub</span>
                         <span class="text-xs font-black text-on-surface dark:text-white uppercase tracking-wide">Agendamento de Banho</span>
                     </div>
-                    <div class="flex flex-col gap-3">
-                        <!-- Data -->
-                        <div class="flex flex-col gap-1">
-                            <label class="text-[10px] font-extrabold text-outline uppercase tracking-wider">Data do Banho:</label>
-                            <input type="date" value="${schedulingData.banho.date}" onchange="handleSchedulingInputChange('banho', 'date', this.value)" class="w-full bg-surface-container-low dark:bg-surface-container-high border-none px-3.5 py-2.5 rounded-2xl text-xs font-bold text-on-surface dark:text-white focus:ring-2 focus:ring-primary">
-                        </div>
-                        <!-- Horário -->
+                    <div class="flex flex-col gap-4">
                         <div class="flex flex-col gap-1.5">
-                            <label class="text-[10px] font-extrabold text-outline uppercase tracking-wider">Horário disponível (7h às 20h):</label>
-                            <div class="flex gap-2 overflow-x-auto pb-1.5 scrollbar-none select-none snap-x snap-mandatory">
-                                ${hoursHtml}
+                            <label class="text-[10px] font-extrabold text-outline uppercase tracking-wider">Data de Início:</label>
+                            <input type="date" value="${schedulingData.banho.date}" onchange="handleSchedulingInputChange('banho', 'date', this.value)" class="w-full bg-surface-container-low dark:bg-surface-container-high border-none px-4 py-3 rounded-2xl text-xs font-bold text-on-surface dark:text-white focus:ring-2 focus:ring-primary">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <!-- Dias da Semana (Custom Dropdown) -->
+                            <div class="flex flex-col gap-1.5 relative">
+                                <label class="text-[10px] font-extrabold text-outline uppercase tracking-wider">Dias de Frequência:</label>
+                                <button type="button" onclick="toggleDaySelectorSPA('banho')" class="w-full bg-surface-container-low dark:bg-surface-container-high border-none px-4 py-3 rounded-2xl text-xs font-bold text-on-surface dark:text-white flex items-center justify-between transition-all hover:bg-surface-container-high group">
+                                    <span class="truncate pr-1">${displayTextDays}</span>
+                                    <span class="material-symbols-outlined text-[18px] text-primary group-hover:scale-110 transition-transform">expand_more</span>
+                                </button>
+                                <div id="day-dropdown-banho" class="hidden absolute top-full left-0 right-0 z-[999] mt-2 !bg-white !dark:bg-[#141414] !opacity-100 !backdrop-blur-none rounded-2xl p-4 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.4)] border border-primary/20 animate-fade-in-up">
+                                    <div class="grid grid-cols-3 gap-2">
+                                        ${daysHtml}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Horário (Sistema Nativo) -->
+                            <div class="flex flex-col gap-1.5 relative">
+                                <label class="text-[10px] font-extrabold text-outline uppercase tracking-wider">Horário:</label>
+                                <div class="relative">
+                                    <input type="time" value="${selectedTime}" onchange="selectSchedulingTime('banho', this.value)" class="w-full bg-surface-container-low dark:bg-surface-container-high border-none px-4 py-3 rounded-2xl text-xs font-bold text-on-surface dark:text-white focus:ring-2 focus:ring-primary appearance-none">
+                                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[18px] text-primary pointer-events-none">schedule</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2861,19 +2923,27 @@
 
         // CRECHE
         if (hasCreche) {
-            const weekdays = [
-                { key: 'seg', label: 'Seg' },
-                { key: 'ter', label: 'Ter' },
-                { key: 'qua', label: 'Qua' },
-                { key: 'qui', label: 'Qui' },
-                { key: 'sex', label: 'Sex' },
-                { key: 'sab', label: 'Sáb' }
-            ];
-            let daysHtml = "";
+            const selectedTimeCreche = schedulingData.creche.time;
+            let hoursHtmlCreche = "";
+            hours.forEach(h => {
+                const isSelected = selectedTimeCreche === h;
+                hoursHtmlCreche += `
+                    <button type="button" onclick="event.stopPropagation(); selectSchedulingTime('creche', '${h}')" class="w-full py-2.5 rounded-xl text-xs font-black transition-all border border-surface-container-high dark:border-white/10 ${isSelected ? 'bg-primary text-white border-primary shadow' : 'bg-surface-container-low dark:bg-surface-container-high text-on-surface hover:bg-surface-container-high'}">
+                        ${h}
+                    </button>
+                `;
+            });
+
+            const selectedDaysCreche = schedulingData.creche.days;
+            const displayTextDaysCreche = selectedDaysCreche.length > 0 
+                ? weekdays.filter(d => selectedDaysCreche.includes(d.key)).map(d => d.label).join(', ')
+                : "Selecionar...";
+
+            let daysHtmlCreche = "";
             weekdays.forEach(d => {
-                const isSelected = schedulingData.creche.days.includes(d.key);
-                daysHtml += `
-                    <button type="button" onclick="toggleSchedulingDay('${d.key}')" class="flex-1 py-2 rounded-xl text-xs font-black transition-all border border-surface-container-high dark:border-white/10 tap-press ${isSelected ? 'bg-primary text-white border-primary shadow' : 'bg-surface-container-low dark:bg-surface-container-high text-on-surface hover:bg-surface-container-high'}">
+                const isSelected = selectedDaysCreche.includes(d.key);
+                daysHtmlCreche += `
+                    <button type="button" onclick="event.stopPropagation(); toggleSchedulingDay('creche', '${d.key}')" class="w-full py-2 rounded-xl text-[11px] font-black transition-all border border-surface-container-high dark:border-white/10 tap-press ${isSelected ? 'bg-primary text-white border-primary shadow' : 'bg-surface-container-low dark:bg-surface-container-high text-on-surface hover:bg-surface-container-high'}">
                         ${d.label}
                     </button>
                 `;
@@ -2881,28 +2951,37 @@
 
             html += `
                 <!-- Bloco Creche -->
-                <div class="bg-surface-container-lowest dark:bg-inverse-surface border border-surface-container-high dark:border-white/10 rounded-2xl p-4 shadow-sm animate-fade-in">
+                <div class="bg-surface-container-lowest dark:bg-inverse-surface border border-surface-container-high dark:border-white/10 rounded-2xl p-4 shadow-sm animate-fade-in relative">
                     <div class="flex items-center gap-2 border-b border-surface-container-high dark:border-white/10 pb-2.5 mb-3">
                         <span class="material-symbols-outlined text-primary text-[20px]">toys</span>
                         <span class="text-xs font-black text-on-surface dark:text-white uppercase tracking-wide">Agendamento de Creche</span>
                     </div>
-                    <div class="flex flex-col gap-3">
-                        <!-- Dias da Semana -->
+                    <div class="flex flex-col gap-4">
                         <div class="flex flex-col gap-1.5">
-                            <label class="text-[10px] font-extrabold text-outline uppercase tracking-wider">Dias de Frequência:</label>
-                            <div class="flex gap-1.5 w-full">
-                                ${daysHtml}
-                            </div>
+                            <label class="text-[10px] font-extrabold text-outline uppercase tracking-wider">Data de Início:</label>
+                            <input type="date" value="${schedulingData.creche.startDate}" onchange="handleSchedulingInputChange('creche', 'startDate', this.value)" class="w-full bg-surface-container-low dark:bg-surface-container-high border-none px-4 py-3 rounded-2xl text-xs font-bold text-on-surface dark:text-white focus:ring-2 focus:ring-primary">
                         </div>
-                        <!-- Início e Horário -->
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="flex flex-col gap-1">
-                                <label class="text-[10px] font-extrabold text-outline uppercase tracking-wider">Data de Início:</label>
-                                <input type="date" value="${schedulingData.creche.startDate}" onchange="handleSchedulingInputChange('creche', 'startDate', this.value)" class="w-full bg-surface-container-low dark:bg-surface-container-high border-none px-3.5 py-2.5 rounded-2xl text-xs font-bold text-on-surface dark:text-white focus:ring-2 focus:ring-primary">
+                            <!-- Dias da Semana (Custom Dropdown) -->
+                            <div class="flex flex-col gap-1.5 relative">
+                                <label class="text-[10px] font-extrabold text-outline uppercase tracking-wider">Dias de Frequência:</label>
+                                <button type="button" onclick="toggleDaySelectorSPA('creche')" class="w-full bg-surface-container-low dark:bg-surface-container-high border-none px-4 py-3 rounded-2xl text-xs font-bold text-on-surface dark:text-white flex items-center justify-between transition-all hover:bg-surface-container-high group">
+                                    <span class="truncate pr-1">${displayTextDaysCreche}</span>
+                                    <span class="material-symbols-outlined text-[18px] text-primary group-hover:scale-110 transition-transform">expand_more</span>
+                                </button>
+                                <div id="day-dropdown-creche" class="hidden absolute top-full left-0 right-0 z-[999] mt-2 !bg-white !dark:bg-[#141414] !opacity-100 !backdrop-blur-none rounded-2xl p-4 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.4)] border border-primary/20 animate-fade-in-up">
+                                    <div class="grid grid-cols-3 gap-2">
+                                        ${daysHtmlCreche}
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <label class="text-[10px] font-extrabold text-outline uppercase tracking-wider">Horário de Entrada:</label>
-                                <input type="time" value="${schedulingData.creche.startTime}" onchange="handleSchedulingInputChange('creche', 'startTime', this.value)" class="w-full bg-surface-container-low dark:bg-surface-container-high border-none px-3.5 py-2.5 rounded-2xl text-xs font-bold text-on-surface dark:text-white focus:ring-2 focus:ring-primary">
+                            <!-- Horário (Sistema Nativo) -->
+                            <div class="flex flex-col gap-1.5 relative">
+                                <label class="text-[10px] font-extrabold text-outline uppercase tracking-wider">Horário:</label>
+                                <div class="relative">
+                                    <input type="time" value="${selectedTimeCreche}" onchange="selectSchedulingTime('creche', this.value)" class="w-full bg-surface-container-low dark:bg-surface-container-high border-none px-4 py-3 rounded-2xl text-xs font-bold text-on-surface dark:text-white focus:ring-2 focus:ring-primary appearance-none">
+                                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[18px] text-primary pointer-events-none">schedule</span>
+                                </div>
                             </div>
                         </div>
                     </div>
